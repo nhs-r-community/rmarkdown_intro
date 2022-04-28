@@ -1,0 +1,148 @@
+---
+title: "Render loops"
+session: "10"
+subtitle: "Adapted from slides by Alison Hill (RStudio)"
+author: Zoë Turner
+date: "`r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    css: ["default", "assets/css/my-theme.css", "assets/css/my-fonts.css"]
+    seal: false 
+    lib_dir: libs
+    nature:
+      highlightStyle: dracula
+      highlightLanguage: ["r", "yaml", "markdown"]
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+    includes:
+      in_header: assets/header.html  
+params:
+  site_link: "https://philosopher-analyst.netlify.app/rmd-workshop/"
+  cloud_link: "https://rstudio.cloud/"
+  github_link: "https://github.com/Lextuga007/rm_01_basics"
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+episode_counter <- 0
+knitr::opts_chunk$set(
+  collapse = TRUE,   
+  comment = "#>"
+)
+```
+
+```{r packages, include=FALSE}
+library(countdown)
+library(ymlthis)
+library(tidyverse)
+library(bakeoff)
+library(xaringanExtra)
+
+xaringanExtra::use_clipboard()
+xaringanExtra::use_share_again() # need to get the slide button on html view
+```
+
+class: title-slide, center, middle
+
+<span class="fa-stack fa-4x">
+  <i class="fa fa-circle fa-stack-2x" style="color: #ffffffcc;"></i>
+  <strong class="fa-stack-1x" style="color:#e7553c;">`r rmarkdown::metadata$session`</strong>
+</span> 
+
+# `r rmarkdown::metadata$title`
+
+---
+
+class: inverse, center, middle
+
+# <center>Render loops</center>
+
+<span class="fa-stack fa-4x">
+  <i class="fa fa-circle fa-stack-2x" style="color: #fff;"></i>
+  <strong class="fa-stack-1x" style="color:#17a2b8;">`r (episode_counter <- episode_counter + 1)` </strong>
+</span> 
+
+---
+class: live-code
+
+# We loop together
+
+```{r eval=FALSE}
+ratings <- readr::read_csv(here::here("data/ratings.csv"))
+
+# the setup finds the individual series numbers
+series <- sort(unique(ratings$series))
+
+# the loop
+for (this_series in series) {
+  rmarkdown::render("01-bakeoff-report.Rmd",
+         params = list(series = this_series))
+}
+```
+
+This loop just overwrites the html file (check for the time run). Open file
+`01-bakeoff-report.html` and you will see it says `Series 9`, the last series.
+
+_psst...use the code in an R script to see each part_
+
+???
+The data loaded into the GitHub repository is split out by series as well as
+altogether - `ratings.csv` was originally used in the advanced session. 
+
+---
+
+```{r echo=FALSE, out.width="80%", fig.align="center"}
+knitr::include_graphics("images/joy-of-fp/forloops.png")
+```
+
+---
+
+# <center>Loop v purrr</center>
+
+Extending the loop to named files using `output_file = ` in either a loop or {purrr}
+
+.pull-left[
+```{r eval=FALSE}
+
+for (this_series in series) {
+  rmarkdown::render(
+    input = "01-bakeoff-report.Rmd",
+    params = list(series = this_series), 
+    output_format = "html_document", 
+    output_file = glue::glue("Report_for_Series_{this_series}")) #<<
+}
+
+```
+]
+
+???
+output_format() defaults to html but just for clarity this is included in the code.
+
+
+
+--
+
+.pull-right[
+
+```{r eval=FALSE}
+purrr::map(
+  .x = series,  # vector of param values
+  .f = ~rmarkdown::render(
+    input = "01-bakeoff-report.Rmd", 
+    params = list(series = .x),  
+    output_format = "word_document",
+    output_file = glue::glue("Report_for_Series", .x)) #<<
+  )
+)
+
+```
+
+]
+
+Purr code adapted from [Matt Dray's blog](https://www.rostrum.blog/2020/03/12/knit-with-params/)
+
+---
+class: inverse
+
+# <center>Next section...</center>

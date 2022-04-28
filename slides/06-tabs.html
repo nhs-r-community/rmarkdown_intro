@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Tabs</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Zoë Turner" />
+    <meta name="date" content="2022-03-23" />
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <script src="libs/clipboard/clipboard.min.js"></script>
+    <link href="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.js"></script>
+    <script>window.xaringanExtraClipboard(null, {"button":"Copy Code","success":"Copied!","error":"Press Ctrl+C to Copy"})</script>
+    <link href="libs/shareon/shareon.min.css" rel="stylesheet" />
+    <script src="libs/shareon/shareon.min.js"></script>
+    <link href="libs/xaringanExtra-shareagain/shareagain.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-shareagain/shareagain.js"></script>
+    <link href="libs/countdown/countdown.css" rel="stylesheet" />
+    <script src="libs/countdown/countdown.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link rel="stylesheet" href="assets/css/my-theme.css" type="text/css" />
+    <link rel="stylesheet" href="assets/css/my-fonts.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+
+
+
+
+class: title-slide, center, middle
+
+&lt;span class="fa-stack fa-4x"&gt;
+  &lt;i class="fa fa-circle fa-stack-2x" style="color: #ffffffcc;"&gt;&lt;/i&gt;
+  &lt;strong class="fa-stack-1x" style="color:#e7553c;"&gt;06&lt;/strong&gt;
+&lt;/span&gt; 
+
+# Tabs
+
+---
+class: inverse, center, middle
+
+# &lt;center&gt;Tabs&lt;/center&gt;
+
+&lt;span class="fa-stack fa-4x"&gt;
+  &lt;i class="fa fa-circle fa-stack-2x" style="color: #fff;"&gt;&lt;/i&gt;
+  &lt;strong class="fa-stack-1x" style="color:#17a2b8;"&gt;1 &lt;/strong&gt;
+&lt;/span&gt; 
+
+---
+
+# &lt;center&gt;Dealing with long reports&lt;/center&gt;
+
+.pull-left[
+
+There is a hierarchy of hashes for tabs
+
+```markdown
+
+## Series Analysis {.tabset}
+
+### Overview
+
+### Ratings
+
+```
+
+Also
+
+```markdown
+
+# Series Analysis {.tabset}
+
+## Overview
+
+## Ratings
+```
+
+]
+
+--
+
+.pull-right[
+/
+![Screenshot of the tabsets with the headers as above](images/tabset.PNG)
+
+]
+
+???
+A Return space/carriage is required between the tabs OR two spaces after the line.
+
+Note to start a tabset there have to be 2 hashes and not the main header of one #
+
+
+---
+class: your-turn
+
+# Your turn
+
+Looking at `01-bakeoff-report.Rmd` together. 
+Look at the source, then 🧶 **Knit** after each step.
+
+1. Add a header `# Series Analysis {.tabset}`.
+
+1. Change `# Overview` to `## Overview`.
+
+1. Change `# Ratings` to `## Ratings`.
+
+1. Remove the space in the second header `##Ratings`. What happens?
+
+
+<div class="countdown" id="timer_623b5e67" style="right:0;bottom:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">03</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+---
+class: inverse, center, middle
+
+# &lt;center&gt;Styling Tabs&lt;/center&gt;
+
+&lt;span class="fa-stack fa-4x"&gt;
+  &lt;i class="fa fa-circle fa-stack-2x" style="color: #fff;"&gt;&lt;/i&gt;
+  &lt;strong class="fa-stack-1x" style="color:#17a2b8;"&gt;2 &lt;/strong&gt;
+&lt;/span&gt; 
+
+---
+
+# &lt;center&gt;Styling Tabs&lt;/center&gt;
+
+.pull-left[
+
+```markdown
+
+# Series Analysis {.tabset .tabset-fade .tabset-pills}
+
+## Overview
+
+## Ratings
+
+```
+]
+
+--
+
+.pull-right[
+
+![Screenshot of the tabsets with the headers as above, pillsets have rounded edges](images/tabset-pills.PNG)
+
+]
+
+
+
+---
+class: inverse, center, middle
+
+# &lt;center&gt;Dynamic tabs&lt;/center&gt;
+
+&lt;span class="fa-stack fa-4x"&gt;
+  &lt;i class="fa fa-circle fa-stack-2x" style="color: #fff;"&gt;&lt;/i&gt;
+  &lt;strong class="fa-stack-1x" style="color:#17a2b8;"&gt;3 &lt;/strong&gt;
+&lt;/span&gt; 
+
+---
+class: live-code
+
+# Dynamic tabs
+
+Together: 
+
+1. We'll add a new header `## Days {.tabset .tabset-fade .tabset-pills}`
+
+1. &lt;kbd&gt;Ctrl + Alt + i&lt;/kbd&gt; for a new R chunk.
+
+1. Add the `results='asis'` in the chunk options.
+
+1. Create a list of days 
+
+```markdown 
+days &lt;- viewers %&gt;% select(days) %&gt;% unique() %&gt;% pull()
+```
+
+5. Copy loop code:
+
+```markdown
+for(i in days){ 
+  cat("###", i, '&lt;br&gt;', '\n')
+  
+  data &lt;- viewers %&gt;% 
+    filter(days == i) 
+  
+  chart &lt;- ggplot(data, aes(episode, 
+                    viewers, 
+                    colour = days, 
+                    group = days)) + 
+  geom_point() + 
+  geom_line() + 
+  labs(
+    x = "Episode", 
+    y = "Viewers (millions)"
+  ) +
+  expand_limits(y = 0) 
+  print(chart)
+  cat('\n', '&lt;br&gt;', '\n\n')
+}
+```
+
+???
+**The new code chunk must be below the Ratings section as that's where the `viewers` data is created.**
+
+As with so much in R most things can be automated. If you were to require many tabs to be created for teams/wards/hospitals then automating this using a loop can be useful. First example shared in the [NHS-R Community demos and how tos](https://github.com/nhs-r-community/demos-and-how-tos/blob/main/rmarkdown/loop_tabs/loop_tabs.Rmd)
+
+*`results='asis'`*
+
+On 'asis' Note the use of the` results='asis'` chunk option. This is required to ensure that the raw table output isn’t processed further by knitr. The kable function includes several options to control the maximum number of digits for numeric columns, alignment, etc (refer to the knitr package documentation for additional details) - results slide https://lextuga007.github.io/rmd-workshop/slides/04-code-chunks.html#21
+
+---
+
+class: middle, center
+
+# ⏱
+
+# Time for a break!
+
+<div class="countdown" id="timer_623b5d86" style="right:0;bottom:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">10</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+---
+class: inverse
+
+# &lt;center&gt;Next section...&lt;/center&gt;
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "dracula",
+"highlightLanguage": ["r", "yaml", "markdown"],
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>What is inside RMarkdown in more detail?</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Zoë Turner" />
+    <meta name="date" content="2022-03-23" />
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <script src="libs/clipboard/clipboard.min.js"></script>
+    <link href="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.js"></script>
+    <script>window.xaringanExtraClipboard(null, {"button":"Copy Code","success":"Copied!","error":"Press Ctrl+C to Copy"})</script>
+    <link href="libs/shareon/shareon.min.css" rel="stylesheet" />
+    <script src="libs/shareon/shareon.min.js"></script>
+    <link href="libs/xaringanExtra-shareagain/shareagain.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-shareagain/shareagain.js"></script>
+    <link href="libs/countdown/countdown.css" rel="stylesheet" />
+    <script src="libs/countdown/countdown.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link rel="stylesheet" href="assets/css/my-theme.css" type="text/css" />
+    <link rel="stylesheet" href="assets/css/my-fonts.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+
+
+
+
+class: title-slide, center, middle
+
+&lt;span class="fa-stack fa-4x"&gt;
+  &lt;i class="fa fa-circle fa-stack-2x" style="color: #ffffffcc;"&gt;&lt;/i&gt;
+  &lt;strong class="fa-stack-1x" style="color:#e7553c;"&gt;01&lt;/strong&gt;
+&lt;/span&gt; 
+
+# What is inside RMarkdown in more detail?
+
+---
+
+
+
+
+
+.left-column[
+&lt;span class="fa-stack fa-4x"&gt;
+  &lt;i class="fa fa-circle fa-stack-2x" style="color: #f2e255;"&gt;&lt;/i&gt;
+  &lt;strong class="fa-stack-1x" style="color: #fff;"&gt;?&lt;/strong&gt;
+&lt;/span&gt; 
+]
+
+.right-column[
+
+# How does R Markdown work - what do you think?
+
+1. 🤷
+
+1. I press knit, a document appears, and I believe that anything happening in between could be actual magic.
+
+1. `knitr` executes the code and converts `.Rmd` to `.md`; **Pandoc** renders the `.md` file to the output format you want.
+
+]
+
+---
+
+class: top
+
+.left-column[
+&lt;span class="fa-stack fa-4x"&gt;
+  &lt;i class="fa fa-circle fa-stack-2x" style="color: #f2e255;"&gt;&lt;/i&gt;
+  &lt;strong class="fa-stack-1x" style="color: #fff;"&gt;?&lt;/strong&gt;
+&lt;/span&gt; 
+
+]
+
+.right-column[
+
+# How *does* R Markdown work - answers?
+
+1. 🤷 (✔️)
+
+1. ["I press knit, a document appears, and I believe that anything happening in between could be actual magic."](https://twitter.com/allison_horst/status/1070323369600442368?s=20) (🧙‍♂️)
+
+1. `knitr` executes the code and converts `.Rmd` to `.md`; **Pandoc** renders the `.md` file to the output format you want. (✔️)
+
+]
+
+---
+
+class: inverse, center, middle
+
+# &lt;center&gt;Metadata&lt;/center&gt;
+
+&lt;span class="fa-stack fa-4x"&gt;
+  &lt;i class="fa fa-circle fa-stack-2x" style="color: #fff;"&gt;&lt;/i&gt;
+  &lt;strong class="fa-stack-1x" style="color:#17a2b8;"&gt;1 &lt;/strong&gt;
+&lt;/span&gt; 
+
+---
+
+# Metadata - YAML
+
+.pull-left[
+
+_"YAML Ain't Markup Language"_
+
+```yaml
+---
+key: value
+---
+```
+
+]
+
+.pull-right[
+
+&lt;img src="images/orchestra.jpg" title="Drawing of the back of a conductor" alt="Drawing of the back of a conductor" width="75%" style="display: block; margin: auto;" /&gt;
+
+]
+
+???
+
+Using the {ymlthis} this section renders the "look" of the YAML with the three 
+dashes then `key: value` which is the format used in YAML. 
+
+---
+class: middle, center
+
+# Output options
+
+---
+
+# Save output options in your YAML
+
+.pull-left[
+
+Basic YAML
+
+```yaml
+---
+title: The Great British Bake Off
+output: html_document
+---
+```
+
+]
+
+--
+.pull-right[
+
+Add html related options
+
+```yaml
+---
+title: The Great British Bake Off
+output:
+  html_document:
+    toc: true
+---
+```
+
+
+]
+
+---
+class: your-turn
+
+# Your turn
+
+## Add output options to YAML
+
+Use `?rmarkdown::html_document` from your R console to find the code to:
+
+1. Add a floating table of contents
+
+1. Add a theme
+
+🧶 **Knit** to HTML to see the output.
+
+**If this was easy**, try to embed the `Rmd` source code to download (appears as
+a button in top right hand of report).
+
+_psst...answers on the next slide..._
+
+<div class="countdown" id="timer_623b5c35" style="right:0;bottom:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">03</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+---
+class: your-turn
+
+# Answers
+
+```yaml
+---
+title: The Great British Bake Off
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    theme: flatly
+    code_download: true
+---
+```
+
+???
+
+Copying the code to MS Teams to share will lose the formatting!
+
+---
+
+class: inverse, center, middle
+
+# &lt;center&gt;Parameters&lt;/center&gt;
+
+&lt;span class="fa-stack fa-4x"&gt;
+  &lt;i class="fa fa-circle fa-stack-2x" style="color: #fff;"&gt;&lt;/i&gt;
+  &lt;strong class="fa-stack-1x" style="color:#17a2b8;"&gt;2 &lt;/strong&gt;
+&lt;/span&gt; 
+
+---
+
+# &lt;center&gt;Parameters&lt;/center&gt;
+
+```yaml
+---
+title: The Great British Bake Off
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    theme: flatly
+    code_download: true
+params:
+  series: '1'
+---
+```
+
+???
+
+Some may be familiar to the concept of parameters from SQL where code use in multiple
+places later in the script are written at the top so they can be easily changed. 
+
+This is a particular example of this 'hard coding' of parameters.
+
+---
+class: your-turn
+
+# Your turn
+
+.pull-left[
+
+Change this:
+
+```yaml
+---
+title: The Great British Bake Off
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    theme: flatly
+    code_download: true
+params:
+  series: '1'
+---
+```
+
+]
+
+.pull-right[
+
+To this:
+
+```yaml
+---
+title: The Great British Bake Off
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    theme: flatly
+    code_download: true
+params:
+  series: '2'
+---
+```
+
+]
+
+Now click on knit button and pick __"Knit with Parameters."__ How is this different from what you did above? 
+
+Note: this might appear as a grey box if your VPN/Network has strict security
+
+
+<div class="countdown" id="timer_623b5c1b" style="right:0;bottom:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">03</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+---
+
+class: middle, center
+
+# ⏱
+
+# Time for a break!
+
+<div class="countdown" id="timer_623b5ed2" style="right:0;bottom:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">10</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+---
+class: inverse
+
+# &lt;center&gt;Next section...&lt;/center&gt;
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "dracula",
+"highlightLanguage": ["r", "yaml", "markdown"],
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

@@ -1,0 +1,307 @@
+---
+title: "What is inside RMarkdown in more detail?"
+session: "01"
+subtitle: "Adapted from slides by Alison Hill (RStudio)"
+author: Zoë Turner
+date: "`r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    css: ["default", "assets/css/my-theme.css", "assets/css/my-fonts.css"]
+    seal: false 
+    lib_dir: libs
+    nature:
+      highlightStyle: dracula
+      highlightLanguage: ["r", "yaml", "markdown"]
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+    includes:
+      in_header: assets/header.html  
+params:
+  site_link: "https://philosopher-analyst.netlify.app/rmd-workshop/"
+  cloud_link: "https://rstudio.cloud/"
+  github_link: "https://github.com/Lextuga007/rm_01_basics"
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+episode_counter <- 0
+knitr::opts_chunk$set(
+  collapse = TRUE,   
+  comment = "#>"
+)
+```
+
+```{r packages, include=FALSE}
+library(countdown)
+library(ymlthis)
+library(tidyverse)
+library(bakeoff)
+library(xaringanExtra)
+
+xaringanExtra::use_clipboard()
+xaringanExtra::use_share_again() # need to get the slide button on html view
+```
+
+class: title-slide, center, middle
+
+<span class="fa-stack fa-4x">
+  <i class="fa fa-circle fa-stack-2x" style="color: #ffffffcc;"></i>
+  <strong class="fa-stack-1x" style="color:#e7553c;">`r rmarkdown::metadata$session`</strong>
+</span> 
+
+# `r rmarkdown::metadata$title`
+
+---
+
+```{r child="how-rmd-works.Rmd"}
+
+```
+
+---
+
+class: top
+
+.left-column[
+<span class="fa-stack fa-4x">
+  <i class="fa fa-circle fa-stack-2x" style="color: #f2e255;"></i>
+  <strong class="fa-stack-1x" style="color: #fff;">?</strong>
+</span> 
+
+]
+
+.right-column[
+
+# How *does* R Markdown work - answers?
+
+1. `r emo::ji("shrug")` (`r emo::ji("heavy_check_mark")`)
+
+1. ["I press knit, a document appears, and I believe that anything happening in between could be actual magic."](https://twitter.com/allison_horst/status/1070323369600442368?s=20) (`r emo::ji("wizard")`)
+
+1. `knitr` executes the code and converts `.Rmd` to `.md`; **Pandoc** renders the `.md` file to the output format you want. (`r emo::ji("heavy_check_mark")`)
+
+]
+
+---
+
+class: inverse, center, middle
+
+# <center>Metadata</center>
+
+<span class="fa-stack fa-4x">
+  <i class="fa fa-circle fa-stack-2x" style="color: #fff;"></i>
+  <strong class="fa-stack-1x" style="color:#17a2b8;">`r (episode_counter <- episode_counter + 1)` </strong>
+</span> 
+
+---
+
+# Metadata - YAML
+
+.pull-left[
+
+_"YAML Ain't Markup Language"_
+
+```yaml
+---
+key: value
+---
+```
+
+]
+
+.pull-right[
+
+```{r echo=FALSE, out.width="75%", fig.align='center', fig.alt="Drawing of the back of a conductor"}
+knitr::include_graphics("images/orchestra.jpg")
+```
+
+]
+
+???
+
+Using the {ymlthis} this section renders the "look" of the YAML with the three 
+dashes then `key: value` which is the format used in YAML. 
+
+---
+class: middle, center
+
+# Output options
+
+---
+
+# Save output options in your YAML
+
+.pull-left[
+
+Basic YAML
+
+```{r echo = FALSE}
+yml_empty() %>% 
+  yml_title("The Great British Bake Off") %>% 
+  yml_output(html_document()) %>% 
+  asis_yaml_output()
+```
+
+]
+
+--
+.pull-right[
+
+Add html related options
+
+```{r echo = FALSE}
+yml_empty() %>% 
+  yml_title("The Great British Bake Off") %>% 
+  yml_output(html_document(toc = TRUE)) %>%  
+  asis_yaml_output()
+```
+
+
+]
+
+---
+class: your-turn
+
+# Your turn
+
+## Add output options to YAML
+
+Use `?rmarkdown::html_document` from your R console to find the code to:
+
+1. Add a floating table of contents
+
+1. Add a theme
+
+`r emo::ji("yarn")` **Knit** to HTML to see the output.
+
+**If this was easy**, try to embed the `Rmd` source code to download (appears as
+a button in top right hand of report).
+
+_psst...answers on the next slide..._
+
+```{r echo = FALSE}
+countdown(minutes = 3)
+```
+
+---
+class: your-turn
+
+# Answers
+
+```{r echo = FALSE}
+yml_empty() %>% 
+  yml_title("The Great British Bake Off") %>% 
+  yml_output(html_document(toc = TRUE,
+                           toc_float = TRUE,
+                           theme = "flatly",
+                           code_download = TRUE)) %>% 
+  asis_yaml_output()
+```
+
+???
+
+Copying the code to MS Teams to share will lose the formatting!
+
+---
+
+class: inverse, center, middle
+
+# <center>Parameters</center>
+
+<span class="fa-stack fa-4x">
+  <i class="fa fa-circle fa-stack-2x" style="color: #fff;"></i>
+  <strong class="fa-stack-1x" style="color:#17a2b8;">`r (episode_counter <- episode_counter + 1)` </strong>
+</span> 
+
+---
+
+# <center>Parameters</center>
+
+```{r echo = FALSE}
+yml_empty() %>% 
+  yml_title("The Great British Bake Off") %>% 
+  yml_output(html_document(toc = TRUE,
+                           toc_float = TRUE,
+                           theme = "flatly",
+                           code_download = TRUE)) %>% 
+  yml_params(
+    series = '1'
+  ) %>% 
+  asis_yaml_output()
+```
+
+???
+
+Some may be familiar to the concept of parameters from SQL where code use in multiple
+places later in the script are written at the top so they can be easily changed. 
+
+This is a particular example of this 'hard coding' of parameters.
+
+---
+class: your-turn
+
+# Your turn
+
+.pull-left[
+
+Change this:
+
+```{r echo = FALSE}
+yml_empty() %>% 
+  yml_title("The Great British Bake Off") %>% 
+  yml_output(html_document(toc = TRUE,
+                           toc_float = TRUE,
+                           theme = "flatly",
+                           code_download = TRUE)) %>% 
+  yml_params(
+    series = '1'
+  ) %>% 
+  asis_yaml_output()
+```
+
+]
+
+.pull-right[
+
+To this:
+
+```{r echo = FALSE}
+yml_empty() %>% 
+  yml_title("The Great British Bake Off") %>% 
+  yml_output(html_document(toc = TRUE,
+                           toc_float = TRUE,
+                           theme = "flatly",
+                           code_download = TRUE)) %>% 
+  yml_params(
+    series = '2'
+  ) %>% 
+  asis_yaml_output()
+```
+
+]
+
+Now click on knit button and pick __"Knit with Parameters."__ How is this different from what you did above? 
+
+Note: this might appear as a grey box if your VPN/Network has strict security
+
+
+```{r echo = FALSE}
+countdown(minutes = 3)
+```
+
+---
+
+class: middle, center
+
+# `r emo::ji("stopwatch")`
+
+# Time for a break!
+
+```{r echo = FALSE}
+countdown(minutes = 10)
+```
+
+---
+class: inverse
+
+# <center>Next section...</center>

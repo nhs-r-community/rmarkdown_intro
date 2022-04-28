@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Extras</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Zoë Turner" />
+    <meta name="date" content="2022-03-23" />
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <script src="libs/clipboard/clipboard.min.js"></script>
+    <link href="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.js"></script>
+    <script>window.xaringanExtraClipboard(null, {"button":"Copy Code","success":"Copied!","error":"Press Ctrl+C to Copy"})</script>
+    <link href="libs/shareon/shareon.min.css" rel="stylesheet" />
+    <script src="libs/shareon/shareon.min.js"></script>
+    <link href="libs/xaringanExtra-shareagain/shareagain.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-shareagain/shareagain.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link rel="stylesheet" href="assets/css/my-theme.css" type="text/css" />
+    <link rel="stylesheet" href="assets/css/my-fonts.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+
+
+
+
+class: title-slide, center, middle
+
+&lt;span class="fa-stack fa-4x"&gt;
+  &lt;i class="fa fa-circle fa-stack-2x" style="color: #ffffffcc;"&gt;&lt;/i&gt;
+  &lt;strong class="fa-stack-1x" style="color:#e7553c;"&gt;11&lt;/strong&gt;
+&lt;/span&gt; 
+
+# Extras
+
+---
+
+class: inverse, center, middle
+
+# &lt;center&gt;RMarkdown to R and back again&lt;/center&gt;
+
+&lt;span class="fa-stack fa-4x"&gt;
+  &lt;i class="fa fa-circle fa-stack-2x" style="color: #fff;"&gt;&lt;/i&gt;
+  &lt;strong class="fa-stack-1x" style="color:#17a2b8;"&gt;1 &lt;/strong&gt;
+&lt;/span&gt; 
+
+---
+
+# &lt;center&gt;RMarkdown to R and back again&lt;/center&gt;
+
+.pull-left[
+
+When you have RMarkdown scripts you want to make to R
+
+
+```r
+knitr::purl("01-bakeoff-report.Rmd", 
+            documentation = 1)
+```
+
+
+]
+
+
+???
+`documentation =`
+An integer specifying the level of documentation to add to the tangled script. 
+0 means to output pure code, discarding all text chunks); 
+1 (the default) means to add the chunk headers to the code; 
+2 means to add all text chunks to code as roxygen comments. roxygen is used in packages
+
+--
+
+.pull-right[
+
+When you have R script you want to make to RMarkdown
+
+❗ Note this will over-write scripts if they have the same name.
+
+
+```r
+
+knitr::spin("spin-bakeoff-report.R", 
+            knit = FALSE, 
+            format = "Rmd")
+```
+
+
+]
+
+???
+Special hash and quote used from royxgen. Shortcuts need to be added manually but
+can be search and replaced from an R document.
+
+https://github.com/yihui/knitr/blob/master/inst/examples/knitr-spin.R
+
+Also shortcut for comment and uncomment is the same `Ctrl + Shift + c`
+
+---
+
+class: inverse, center, middle
+
+# &lt;center&gt;Knitting many documents&lt;/center&gt;
+
+&lt;span class="fa-stack fa-4x"&gt;
+  &lt;i class="fa fa-circle fa-stack-2x" style="color: #fff;"&gt;&lt;/i&gt;
+  &lt;strong class="fa-stack-1x" style="color:#17a2b8;"&gt;2 &lt;/strong&gt;
+&lt;/span&gt; 
+
+---
+
+# &lt;center&gt;Knitting many documents&lt;/center&gt;
+
+.pull-left[
+List the Rmd files:
+
+
+```r
+files &lt;- list.files(pattern = "[.]Rmd$")
+```
+
+
+Or list the Rmd files in a folder: 
+
+
+```r
+files &lt;- list.files(path = "03-images/", 
+                    pattern = "[.]Rmd$")
+```
+
+]
+
+.pull-right[
+Use for loop code to run all the files:
+
+
+```r
+purrr::map(
+  .x = files,  
+  .f = ~ rmarkdown::render(glue::glue(.x))
+)
+```
+
+
+loop in a subfolder
+
+
+```r
+purrr::map(
+  .x = files, 
+  .f = ~ rmarkdown::render(glue::glue("03-images/", .x))
+)
+```
+
+]
+
+---
+
+class: inverse, center, middle
+
+# &lt;center&gt;Source files&lt;/center&gt;
+
+&lt;span class="fa-stack fa-4x"&gt;
+  &lt;i class="fa fa-circle fa-stack-2x" style="color: #fff;"&gt;&lt;/i&gt;
+  &lt;strong class="fa-stack-1x" style="color:#17a2b8;"&gt;3 &lt;/strong&gt;
+&lt;/span&gt; 
+
+---
+
+# &lt;center&gt;Source files&lt;/center&gt;
+
+Instead of using import data code in the RMarkdown it can be "sourced" from another script.
+
+
+```r
+
+source("R/source_file_csv.R")
+
+```
+
+???
+To show this use the `01-bakeoff-report.Rmd` and replace the `import-data` section with this code. The params$series don't need to be removed as this will still work.
+
+---
+
+
+class: inverse, center, middle
+
+# &lt;center&gt;Using SQL chunks&lt;/center&gt;
+
+&lt;span class="fa-stack fa-4x"&gt;
+  &lt;i class="fa fa-circle fa-stack-2x" style="color: #fff;"&gt;&lt;/i&gt;
+  &lt;strong class="fa-stack-1x" style="color:#17a2b8;"&gt;4 &lt;/strong&gt;
+&lt;/span&gt; 
+
+---
+class: center
+
+# Using SQL chunks
+
+![Screenshot of the add chunk short menu from the Editor bar](images/add-chunk-menu.PNG)
+
+---
+class: live-code
+
+# Using SQL chunks
+
+Show and tell for this SQL code in an RMarkdown
+
+* Open file `sql-chunks.Rmd`.  
+
+* This file will knit but will just return code - there is no connection.
+
+* Add the code `echo = FALSE` to the first chunk under `Default connection`.
+
+SQL chunks options are supported the same options as R and can also be set globally.
+
+---
+
+# SQL Summary points
+
+--
+
+✔️ **It's not just R** RMarkdown combines text and other code (like SQL)
+
+--
+
+✔️ **Temporary tables - but in R** Creating tables of data in R is like creating temporary tables in SQL
+
+--
+
+✔️ **Use SQL power** R uses RAM so make use of the power of SQL servers
+
+--
+
+❗ **Each temporary table is an object** Unlike in SQL you cannot create a temporary table and then refer to it in later code. You have to use CTEs
+
+--
+
+❗ **nvarchar(max)** Some tables in SQL use nvarchar(max), varchar(max) or binary which cause your code to fail.  
+The solution is to do a SELECT statement with the column at the end
+
+--
+
+❗ **Debugging is hard** Errors don't come through from SQL so can be hard to debug from RStudio
+
+--
+
+❗ **Case sensitivity** Microsoft SQL is not case sensitive and R is.
+
+---
+
+class: inverse
+
+# &lt;center&gt;And that's the end...&lt;/center&gt;
+
+Special thanks to Alison Hill, Emi Tanaka and Desirée De Leon for the [original slides and content](https://ysc-rmarkdown.netlify.app/)
+
+More special thanks to NHS-R Community and Hansel Palencia for the RMarkdown workshop run at the [2021 Conference](https://www.youtube.com/watch?v=RaM6fgwMZIs)
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "dracula",
+"highlightLanguage": ["r", "yaml", "markdown"],
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

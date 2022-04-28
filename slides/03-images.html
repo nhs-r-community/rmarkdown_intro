@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Images</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Zoë Turner" />
+    <meta name="date" content="2022-03-23" />
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <script src="libs/clipboard/clipboard.min.js"></script>
+    <link href="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.js"></script>
+    <script>window.xaringanExtraClipboard(null, {"button":"Copy Code","success":"Copied!","error":"Press Ctrl+C to Copy"})</script>
+    <link href="libs/shareon/shareon.min.css" rel="stylesheet" />
+    <script src="libs/shareon/shareon.min.js"></script>
+    <link href="libs/xaringanExtra-shareagain/shareagain.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-shareagain/shareagain.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link rel="stylesheet" href="assets/css/my-theme.css" type="text/css" />
+    <link rel="stylesheet" href="assets/css/my-fonts.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+
+
+
+
+class: title-slide, center, middle
+
+&lt;span class="fa-stack fa-4x"&gt;
+  &lt;i class="fa fa-circle fa-stack-2x" style="color: #ffffffcc;"&gt;&lt;/i&gt;
+  &lt;strong class="fa-stack-1x" style="color:#e7553c;"&gt;03&lt;/strong&gt;
+&lt;/span&gt; 
+
+# Images
+
+---
+class: inverse, center, middle
+
+# &lt;center&gt;Images&lt;/center&gt;
+
+&lt;span class="fa-stack fa-4x"&gt;
+  &lt;i class="fa fa-circle fa-stack-2x" style="color: #fff;"&gt;&lt;/i&gt;
+  &lt;strong class="fa-stack-1x" style="color:#17a2b8;"&gt;1 &lt;/strong&gt;
+&lt;/span&gt; 
+
+---
+
+# &lt;center&gt;Images - markdown&lt;/center&gt;
+
+.pull-left[
+```markdown
+Competitive baking, such as making Victoria 
+sponge (_pictured_), is part of the classic 
+English village fête,
+which inspired the series.
+![](http://bit.ly/blue-ribbon-sponge)
+```
+]
+
+--
+
+.pull-right[
+Competitive baking, such as making Victoria 
+sponge (_pictured_), is part of the classic 
+English village fête,
+which inspired the series.
+![](http://bit.ly/blue-ribbon-sponge)
+]
+
+???
+
+A simple markdown code line for linking to an image online. html can be used
+too which can be useful if you need to resize the pictures.
+
+---
+
+# &lt;center&gt;Images - html&lt;/center&gt;
+
+.pull-left[
+```markdown
+Competitive baking, such as making Victoria 
+sponge (_pictured_), is part of the classic 
+English village fête,
+which inspired the series.
+&lt;div id="bg"&gt;
+  &lt;img src="http://bit.ly/blue-ribbon-sponge"&gt;
+&lt;/div&gt; 
+```
+]
+
+--
+
+.pull-right[
+Competitive baking, such as making Victoria 
+sponge (_pictured_), is part of the classic 
+English village fête,
+which inspired the series.
+&lt;div id="bg"&gt;
+  &lt;img src="http://bit.ly/blue-ribbon-sponge"&gt;
+&lt;/div&gt; 
+]
+
+???
+html can be used too 
+
+---
+# &lt;center&gt;Images - using knitr&lt;/center&gt;
+
+.pull-left[
+
+````
+```{r}
+knitr::include_graphics("images/joy-of-fp/bakers_1.png")
+```
+````
+
+]
+
+--
+
+.pull-right[
+&lt;img src="images/joy-of-fp/bakers_1.png" width="4000" /&gt;
+
+]
+
+
+---
+class: inverse, center, middle
+
+# &lt;center&gt;Images - navigating folders&lt;/center&gt;
+
+&lt;span class="fa-stack fa-4x"&gt;
+&lt;i class="fa fa-circle fa-stack-2x" style="color: #fff;"&gt;&lt;/i&gt;
+&lt;strong class="fa-stack-1x" style="color:#17a2b8;"&gt;2 &lt;/strong&gt;
+&lt;/span&gt; 
+  
+---
+
+# &lt;center&gt;Images - navigating folders&lt;/center&gt;
+
+--
+
+## Same folder
+
+```markdown
+![](bakers_1.png)
+```
+
+???
+Linking to an image in the same area as the .rmd file is straightforward, as is having a subfolder. 
+--
+
+## Sub folder
+
+```markdown
+![](img/bakers_2.png)
+```
+
+--
+
+### Folder from subfolder from the main root
+
+```markdown
+![](../images/bakers_3.png)
+```
+
+
+???
+
+But if the folder it up a level and down another then the pathway changes.
+
+RMarkdown doesn't access the files in the project, only the files in its location.
+
+Refresh on .RProj? Always use Projects.
+
+The dot dot pathway finds the file but doesn't render in [xaringan slides](https://github.com/yihui/xaringan/issues/145).
+
+---
+class: live-code
+
+# Markdown pathways to images
+
+Open file `03-bakeoff-images.Rmd` from the folder `03-images/`
+
+Together we will use markdown to link to an image:
+
+1. In the same folder
+
+1. In a subfolder
+
+1. In a subfolder from the main root
+
+_psst... we will be testing out the code from the previous slide!..._
+
+???
+
+Same folder
+![](bakers_1.png)
+Sub folder
+![](img/bakers_2.png)
+Folder from subfolder from the main root
+![](../images/bakers_3.png)
+
+Note that autofills. To force a prompt to autofill use `tab`
+
+Also if Global Options/RMarkdown/Show output inline for all R Markdown... is ticked
+the picture will automatically appear in the script. To remove untick but also 
+requires a restart `Ctrl + Shift + F10`
+---
+class: inverse, center, middle
+
+# &lt;center&gt;Alt Text&lt;/center&gt;
+
+&lt;span class="fa-stack fa-4x"&gt;
+&lt;i class="fa fa-circle fa-stack-2x" style="color: #fff;"&gt;&lt;/i&gt;
+&lt;strong class="fa-stack-1x" style="color:#17a2b8;"&gt;3 &lt;/strong&gt;
+&lt;/span&gt; 
+  
+---
+
+# &lt;center&gt;Alt Text&lt;/center&gt;
+
+.pull-left[
+When images break, they still make sense
+]
+
+--
+
+.pull-right[
+![Alt text: picture of a sponge cake from a village competition](http://bit.ly/blue-ribbon)
+]
+
+
+???
+Alternative text is useful for people who use screen readers but also helpful 
+for when the image link breaks, you now get a description of what you should be 
+seeing.
+
+---
+
+# &lt;center&gt;Alt Text&lt;/center&gt;
+
+## Markdown 
+
+Between the [] brackets
+
+```markdown
+![Alt text: picture of a sponge cake from a village competition](http://bit.ly/blue-ribbon-sponge)
+```
+
+--
+
+## HTML
+
+Within the &lt;&gt; and space between sections
+
+```markdown
+&lt;div id="bg"&gt;
+  &lt;img src="http://bit.ly/blue-ribbon-sponge" alt="Alt text: picture of a sponge cake from a village competition"&gt;
+&lt;/div&gt; 
+```
+
+---
+
+# &lt;center&gt;Alt Text continued&lt;/center&gt;
+
+## knitr
+
+Use `fig.alt=`
+
+````
+```{r fig.alt="Alt text: picture of a sponge cake from a village competition"}
+knitr::include_graphics("images/joy-of-fp/bakers_1.png")
+```
+````
+
+???
+&gt; By default, if you do not provide the fig.alt chunk option, the text in the figure caption provided by the fig.cap chunk option will be used as the alt text. You do not have to use fig.cap to use fig.alt- you may use each chunk option in isolation, but they will also work together.
+
+From a [blog](https://www.rstudio.com/blog/knitr-fig-alt/) on the new feature of {knitr}
+---
+class: inverse, center, middle
+
+# &lt;center&gt;Figure options&lt;/center&gt;
+
+&lt;span class="fa-stack fa-4x"&gt;
+&lt;i class="fa fa-circle fa-stack-2x" style="color: #fff;"&gt;&lt;/i&gt;
+&lt;strong class="fa-stack-1x" style="color:#17a2b8;"&gt;4 &lt;/strong&gt;
+&lt;/span&gt; 
+  
+---
+
+# &lt;center&gt;Captions&lt;/center&gt;
+
+.pull-left[
+````
+```{r fig.cap="Picture of a sponge cake from a village competition"}
+knitr::include_graphics("bakers_1.png")
+```
+````
+
+]
+
+--
+
+.pull-right[
+
+&lt;div class="figure"&gt;
+&lt;img src="images/joy-of-fp/bakers_1.png" alt="Picture of a sponge cake from a village competition" width="4000" /&gt;
+&lt;p class="caption"&gt;Picture of a sponge cake from a village competition&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+---
+
+# &lt;center&gt;Resize images&lt;/center&gt;
+
+.pull-left[
+````
+```{r, out.width="50%"}
+knitr::include_graphics("bakers_1.png")
+```
+````
+]
+
+--
+
+.pull-right[
+
+&lt;img src="images/joy-of-fp/bakers_1.png" width="50%" /&gt;
+
+]
+
+???
+
+More information on resizing images (and charts too) from this [blog](http://zevross.com/blog/2017/06/19/tips-and-tricks-for-working-with-images-and-figures-in-r-markdown-documents/#arguments-out.width-and-out.height-apply-to-both-existing-images-and-r-generated-figures)
+
+---
+
+# &lt;center&gt;Centre images&lt;/center&gt;
+
+````
+```{r, fig.align='centre'}
+knitr::include_graphics("bakers_1.png")
+```
+````
+
+&lt;img src="images/joy-of-fp/bakers_1.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+
+???
+More resizing notes in this [blog](https://sebastiansauer.github.io/figure_sizing_knitr/) 
+
+---
+
+class: inverse, center, middle
+
+# &lt;center&gt;Hyperlinks&lt;/center&gt;
+
+&lt;span class="fa-stack fa-4x"&gt;
+&lt;i class="fa fa-circle fa-stack-2x" style="color: #fff;"&gt;&lt;/i&gt;
+&lt;strong class="fa-stack-1x" style="color:#17a2b8;"&gt;5 &lt;/strong&gt;
+&lt;/span&gt; 
+  
+---
+
+# &lt;center&gt;Hyperlinks - markdown&lt;/center&gt;
+
+.pull-left[
+```markdown
+Competitive baking, such as making Victoria 
+sponge (_pictured_), is part of the classic 
+English village fête,
+which inspired the series.
+
+[Photo](https://en.wikipedia.org/wiki/Philosophy)
+
+![Alt text: picture of a sponge cake from a village competition](http://bit.ly/blue-ribbon-sponge)
+```
+]
+
+--
+
+.pull-right[
+Competitive baking, such as making Victoria 
+sponge (_pictured_), is part of the classic 
+English village fête,
+which inspired the series.
+
+[Photo](https://en.wikipedia.org/wiki/Philosophy)
+
+![Alt text: picture of a sponge cake from a village competition](http://bit.ly/blue-ribbon-sponge)
+]
+
+---
+
+# &lt;center&gt;Links - html&lt;/center&gt;
+
+.pull-left[
+```markdown
+Competitive baking, such as making Victoria 
+sponge (_pictured_), is part of the classic 
+English village fête,
+which inspired the series.
+  &lt;a href="https://en.wikipedia.org/wiki/Philosophy"&gt;
+  &lt;img src="http://bit.ly/blue-ribbon-sponge" alt="Picture of a sponge cake from a village competition" 
+  &lt;/a&gt;
+```
+]
+
+--
+
+.pull-right[
+Competitive baking, such as making Victoria 
+sponge (_pictured_), is part of the classic 
+English village fête,
+which inspired the series.
+  &lt;a href="https://en.wikipedia.org/wiki/Philosophy"&gt;
+  &lt;img src="http://bit.ly/blue-ribbon-sponge" alt="Picture of a sponge cake from a village competition" 
+  &lt;/a&gt;
+]
+
+???
+A good site for more information on html is [W3schools](https://www.w3schools.com/html/html_images.asp)
+
+---
+
+name: 03-formative
+class: middle
+
+# Quiz
+
+.pull-left[
+
+How do you add headers in Markdown?
+
+`! Header`
+
+`- Header`
+
+`# Header`
+
+`1. Header`
+
+]
+
+--
+
+.pull-right[
+
+What about lists? Bulleted? Numbered?
+
+`! Item 1`
+
+`- Item 1`
+
+`# Item 1`
+
+`1. Item 1`
+
+]
+
+???
+
+Answer: Headers is `#` hash
+Lists are `-` for bullets and `1.` for numbered
+
+---
+class: inverse
+
+# &lt;center&gt;Next section...&lt;/center&gt;
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "dracula",
+"highlightLanguage": ["r", "yaml", "markdown"],
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

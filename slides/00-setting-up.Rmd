@@ -1,0 +1,251 @@
+---
+title: "R Markdown Setting up"
+session: "00"
+subtitle: "Adapted from slides by Alison Hill (RStudio)"
+author: Zoë Turner
+date: "`r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    css: ["default", "assets/css/my-theme.css", "assets/css/my-fonts.css"]
+    seal: false 
+    lib_dir: libs
+    nature:
+      highlightStyle: dracula
+      highlightLanguage: ["r", "yaml", "markdown"]
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+    includes:
+      in_header: assets/header.html  
+params:
+  site_link: "https://philosopher-analyst.netlify.app/rmd-workshop/"
+  cloud_link: "https://rstudio.cloud/"
+  github_link: "https://github.com/Lextuga007/rm_01_basics"
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+episode_counter <- 0
+knitr::opts_chunk$set(
+  collapse = TRUE,   
+  comment = "#>"
+)
+```
+
+```{r packages, include=FALSE}
+library(countdown)
+library(ymlthis)
+library(tidyverse)
+library(bakeoff)
+library(xaringanExtra)
+
+xaringanExtra::use_clipboard()
+xaringanExtra::use_share_again() # need to get the slide button on html view
+```
+
+class: title-slide, center, middle
+
+<span class="fa-stack fa-4x">
+  <i class="fa fa-circle fa-stack-2x" style="color: #ffffffcc;"></i>
+  <strong class="fa-stack-1x" style="color:#e7553c;">`r rmarkdown::metadata$session`</strong>
+</span> 
+
+# `r rmarkdown::metadata$title`
+
+## `r rmarkdown::metadata$subtitle`
+
+### `r rmarkdown::metadata$author` 
+
+#### [`r params$site_link`](`r params$site_link`)
+
+
+---
+class: middle, center
+
+# Agenda
+RMarkdown  
+
+Getting set up ; What's inside?  
+
+--------- 10 minutes Break --------- 
+
+Text ; Images ; Code chunks  
+
+--------- 1 hour Lunch -----------
+
+Inline code ; Tabs 
+
+--------- Break ---------
+
+Output Formats ; Parameters; Command Line
+
+--------- 10 minutes Break --------- 
+
+Loop reports ; Extras
+
+.green[Finish about 4 - 430pm]
+
+---
+layout: true
+
+<div class="my-footer"><span>`r params$site_link`</span></div>
+
+---
+
+```{r child="what-is-rmd.Rmd"}
+
+```
+
+---
+
+.left-column[
+<span class="fa-stack fa-4x">
+  <i class="fa fa-circle fa-stack-2x" style="color: #f2e255"></i>
+  <strong class="fa-stack-1x" style="color: #fff;">?</strong>
+</span> 
+]
+
+.right-column[
+
+# What is R Markdown - answers?
+
+1. ["An authoring framework for data science."](https://rmarkdown.rstudio.com/lesson-1.html) (`r emo::ji("heavy_check_mark")`)
+
+1. [A document format (`.Rmd`).](https://bookdown.org/yihui/rmarkdown/) (`r emo::ji("heavy_check_mark")`)
+
+1. [An R package named `rmarkdown`.](https://rmarkdown.rstudio.com/docs/) (`r emo::ji("heavy_check_mark")`)
+
+1. ["A file format for making dynamic documents with R."](https://rmarkdown.rstudio.com/articles_intro.html) (`r emo::ji("heavy_check_mark")`)
+
+1. ["A tool for integrating text, code, and results."](https://r4ds.had.co.nz/communicate-intro.html) (`r emo::ji("heavy_check_mark")`)
+
+1. ["A computational document."](http://radar.oreilly.com/2011/07/wolframs-computational-documen.html) (`r emo::ji("heavy_check_mark")`)
+
+1. Wizardry. (well some might say it is! `r emo::ji("wizard")`)
+
+]
+
+---
+
+class: inverse, center, middle
+
+# <center>Let's get started</center>
+
+<span class="fa-stack fa-4x">
+  <i class="fa fa-circle fa-stack-2x" style="color: #fff;"></i>
+  <strong class="fa-stack-1x" style="color:#17a2b8;">`r (episode_counter <- episode_counter + 1)` </strong>
+</span> 
+
+---
+
+# <center>Checking first...</center>
+
+That everyone is/has:
+
+* set up on RStudio Cloud (own laptops are fine to use instead)
+* installed packages
+* downloaded the files and can see them in [Cloud Project or a local Project](https://nhs-r-community.github.io/intro_r/02-workshop_projects.html#1)
+
+--
+
+## Also note...
+
+Code doesn't copy to MS Teams with the correct indentations but code can be copied from the [slides](https://philosopher-analyst.netlify.app/rmd-workshop),
+
+When scripts are opened in the latest version of RStudio and packages are not loaded they will be prompted at the top of the editor to install
+
+???
+
+Code chunks on the slide have a button in the top right to Copy Code without having to highlight and copy.
+
+---
+class: live-code
+
+Together we'll open an RMarkdown template:
+
+* Go to `File/New File/RMarkdown...`
+* A wizard will prompt a Title, Author and Date (in new versions of RStudio)
+* **Knit** this document and save the file when the wizard appears
+
+???
+
+It runs extremely quickly but the file must be saved to knit as it creates the .md file and then leaves the output (after clearing away the .md file).
+
+This template is useful for debugging as it works quickly and doesn't rely upon any packages.
+
+---
+
+class: your-turn
+
+# Your turn
+
+Time to look at `01-bakeoff-report.Rmd`. 
+Look at the source, then `r emo::ji("yarn")` **Knit** to HTML.
+
+Try to identify these parts in the source and the output:
+
+1. The **metadata**
+
+1. The **text** 
+
+1. The **code**
+
+1. The **output**
+
+**If this was easy**, try to find all code that produces a *plot*.
+
+
+```{r echo = FALSE}
+countdown(minutes = 2)
+```
+
+---
+class: live-code
+
+# Basic anatomy I
+
+We look at the *source* anatomy for `01-bakeoff-report.Rmd` together:
+
+1. The **metadata**
+
+1. The **text** 
+
+1. The **code**
+
+--
+# Basic anatomy II
+
+1. The **output**
+    
+
+???
+Point out the parts in the Rmd script. For further documentation on metadata
+https://rmarkdown.rstudio.com/docs/reference/rmd_metadata.html
+    
+---
+background-image: url(images/rmarkdown_wizards.png)
+background-size: contain
+
+.footnote[Art by [Allison Horst](https://twitter.com/allison_horst?lang=en)]
+
+???
+Allison Horst was a [resident artist at RStudio](https://www.rstudio.com/blog/artist-in-residence/) in 2019 and produced and shared beautiful artwork to explain statistics and R concepts
+
+---
+
+background-position: top center
+background-size: 100%
+class: middle, center
+
+Original authors
+
+### Alison Hill  
+[<i class="fab fa-github"></i> @apreshill](https://github.com/apreshill)  
+[<i class="fab fa-twitter"></i> @apreshill](https://twitter.com/apreshill)
+
+### Emi Tanaka  
+[<i class="fab fa-github"></i> @emitanaka](https://github.com/emitanaka)  
+[<i class="fab fa-twitter"></i> @statsgen](https://twitter.com/statsgen)
+
+
+.footnote[All content is CC-BY. All art (unless otherwise noted) is by [Desirée De Leon](https://desiree.rbind.io/), CC-BY-NC-ND.]

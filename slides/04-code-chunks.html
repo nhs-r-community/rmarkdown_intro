@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Code Chunks</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Zoë Turner" />
+    <meta name="date" content="2022-03-23" />
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <script src="libs/clipboard/clipboard.min.js"></script>
+    <link href="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.js"></script>
+    <script>window.xaringanExtraClipboard(null, {"button":"Copy Code","success":"Copied!","error":"Press Ctrl+C to Copy"})</script>
+    <link href="libs/shareon/shareon.min.css" rel="stylesheet" />
+    <script src="libs/shareon/shareon.min.js"></script>
+    <link href="libs/xaringanExtra-shareagain/shareagain.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-shareagain/shareagain.js"></script>
+    <link href="libs/countdown/countdown.css" rel="stylesheet" />
+    <script src="libs/countdown/countdown.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link rel="stylesheet" href="assets/css/my-theme.css" type="text/css" />
+    <link rel="stylesheet" href="assets/css/my-fonts.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+
+
+
+
+class: title-slide, center, middle
+
+&lt;span class="fa-stack fa-4x"&gt;
+  &lt;i class="fa fa-circle fa-stack-2x" style="color: #ffffffcc;"&gt;&lt;/i&gt;
+  &lt;strong class="fa-stack-1x" style="color:#e7553c;"&gt;04&lt;/strong&gt;
+&lt;/span&gt; 
+
+# Code Chunks
+
+---
+
+class: inverse, center, middle
+
+# &lt;center&gt;Understanding Code chunks&lt;/center&gt;
+
+&lt;span class="fa-stack fa-4x"&gt;
+  &lt;i class="fa fa-circle fa-stack-2x" style="color: #fff;"&gt;&lt;/i&gt;
+  &lt;strong class="fa-stack-1x" style="color:#17a2b8;"&gt;1 &lt;/strong&gt;
+&lt;/span&gt; 
+
+# &lt;i class="fab fa-r-project"&gt;&lt;/i&gt; code
+
+---
+
+class: live-code
+
+# Adding/running chunks
+
+Together we open RMarkdown script `01-bakeoff-report.Rmd`:
+
+1. Add chunks with button or:
+
+   Ctrl + Alt + `i` (Windows/Linux)
+   
+   Command (or Cmd) `⌘` + Option (or Alt) `⌥` +  `i` (Mac)
+   
+1. Run chunks by:
+
+   Run current chunk button (green triangle at top of chunk)
+   
+   Knit button / run all chunks (grey arrow down and green bar)
+   
+   Short menu at top of Editor
+
+???
+
+Shortcut key to run a chunk `Ctrl + Shift + Enter`
+
+Some computers return an ì when `Ctrl + Alt + i` is used. Possibly to do with the Fn layout on the keyboard?
+
+Might need the shortcut to be added/amended `Tools/Modify Keyboard Shortcuts...`
+
+---
+
+# &lt;center&gt;Default Code chunk&lt;/center&gt;
+
+.pull-left[
+
+````
+```{r}
+ratings %&gt;% 
+  filter(series == 1) %&gt;% 
+  top_n(1, viewers_7day)
+```
+````
+
+Let's see the fate of this chunk?
+
+]
+
+--
+
+.pull-right[
+
+
+```r
+ratings %&gt;% 
+  filter(series == 1) %&gt;% 
+  top_n(1, viewers_7day)
+#&gt; # A tibble: 1 x 11
+#&gt;   series episode uk_airdate viewers_7day viewers_28day network_rank channels_rank bbc_iplayer_requests episode_count
+#&gt;    &lt;dbl&gt;   &lt;dbl&gt; &lt;date&gt;            &lt;dbl&gt;         &lt;dbl&gt;        &lt;dbl&gt;         &lt;dbl&gt;                &lt;dbl&gt;         &lt;dbl&gt;
+#&gt; 1      1       5 2010-09-14         3.03             1           NA            NA                   NA             5
+#&gt; # ... with 2 more variables: us_season &lt;dbl&gt;, us_airdate &lt;chr&gt;
+```
+
+]
+
+???
+
+This is a view of the data that would normally go to the Console so includes information
+like data types.
+
+Copy and paste into the `01-bakeoff-report.Rmd` and knit to see it in the report.
+
+---
+
+# &lt;center&gt;Object creating Code chunk&lt;/center&gt;
+
+.pull-left[
+
+````
+```{r}
+top_viewers &lt;- ratings %&gt;% 
+  filter(series == 1) %&gt;% 
+  top_n(1, viewers_7day)
+```
+````
+
+What happens here if we create an object?
+
+]
+
+--
+
+.pull-right[
+
+
+```r
+top_viewers &lt;- ratings %&gt;% 
+  filter(series == 1) %&gt;% 
+  top_n(1, viewers_7day)
+```
+]
+
+???
+
+Not quite what we expect as this is just the code showing, not the results, which is the main aim of RMarkdown. 
+
+---
+
+# &lt;center&gt;Showing object Code chunk&lt;/center&gt;
+
+.pull-left[
+
+````
+```{r}
+top_viewers &lt;- ratings %&gt;% 
+  filter(series == 1) %&gt;% 
+  top_n(1, viewers_7day)
+  
+top_viewers
+```
+````
+Can we now see the results?
+
+]
+
+???
+Adding the object name to run - will that show the results?
+
+--
+
+.pull-right[
+
+
+```r
+top_viewers &lt;- ratings %&gt;% 
+  filter(series == 1) %&gt;% 
+  top_n(1, viewers_7day)
+
+top_viewers
+#&gt; # A tibble: 1 x 11
+#&gt;   series episode uk_airdate viewers_7day viewers_28day network_rank channels_rank bbc_iplayer_requests episode_count
+#&gt;    &lt;dbl&gt;   &lt;dbl&gt; &lt;date&gt;            &lt;dbl&gt;         &lt;dbl&gt;        &lt;dbl&gt;         &lt;dbl&gt;                &lt;dbl&gt;         &lt;dbl&gt;
+#&gt; 1      1       5 2010-09-14         3.03             1           NA            NA                   NA             5
+#&gt; # ... with 2 more variables: us_season &lt;dbl&gt;, us_airdate &lt;chr&gt;
+```
+
+]
+
+???
+Yes, but with the data column types again.
+
+---
+
+# &lt;center&gt;Extended Code chunk&lt;/center&gt;
+
+.pull-left[
+
+
+
+
+````
+```{r}
+ggplot(viewers, aes(episode, viewers, 
+                    colour = days, 
+                    group = days)) + 
+  geom_point() + 
+  geom_line() + 
+  labs(x = "Episode", 
+       y = "Viewers (millions)") +
+  expand_limits(y = 0) 
+```
+````
+
+What's going to happen with this chunk?
+
+]
+
+--
+
+.pull-right[
+
+
+```r
+ggplot(viewers, aes(episode, viewers, 
+                    colour = days, 
+                    group = days)) + 
+  geom_point() + 
+  geom_line() + 
+  labs(x = "Episode", 
+       y = "Viewers (millions)") +
+  expand_limits(y = 0) 
+```
+
+&lt;img src="04-code-chunks_files/figure-html/unnamed-chunk-5-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+class: inverse, center, middle
+
+# &lt;center&gt;Navigating chunks&lt;/center&gt;
+
+&lt;span class="fa-stack fa-4x"&gt;
+  &lt;i class="fa fa-circle fa-stack-2x" style="color: #fff;"&gt;&lt;/i&gt;
+  &lt;strong class="fa-stack-1x" style="color:#17a2b8;"&gt;2 &lt;/strong&gt;
+&lt;/span&gt; 
+
+---
+
+class: middle, center
+
+# &lt;center&gt;Navigating in RStudio&lt;/center&gt;
+
+&lt;img src="images/rmd-nav.png" width="465" /&gt;
+
+???
+Navigate code chunks by using the menu in RStudio. 
+
+Chunks will work without names but will have default names like 
+
+* Chunk 1, 
+* Chunk 2 and so on.
+
+Shows the headers AND the chunk labels.
+
+---
+class: inverse, center, middle
+
+# Controlling Output
+
+&lt;span class="fa-stack fa-4x"&gt;
+  &lt;i class="fa fa-circle fa-stack-2x" style="color: #fff;"&gt;&lt;/i&gt;
+  &lt;strong class="fa-stack-1x" style="color:#17a2b8;"&gt;3 &lt;/strong&gt;
+&lt;/span&gt; 
+
+---
+
+# &lt;center&gt;No chunk options&lt;/center&gt;
+
+.pull-left[
+
+````
+```{r}
+glimpse(ratings)
+```
+````
+
+]
+
+--
+
+.pull-right[
+
+
+```r
+glimpse(ratings)
+#&gt; Rows: 94
+#&gt; Columns: 11
+#&gt; $ series               &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, ~
+#&gt; $ episode              &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6,~
+#&gt; $ uk_airdate           &lt;date&gt; 2010-08-17, 2010-08-24, 2010-08-31, 2010-09-07, 2010-09-14, 2010-09-21, 2011-08-16, 2011-~
+#&gt; $ viewers_7day         &lt;dbl&gt; 2.24, 3.00, 3.00, 2.60, 3.03, 2.75, 3.10, 3.53, 3.82, 3.60, 3.83, 4.25, 4.42, 5.06, 3.85, ~
+#&gt; $ viewers_28day        &lt;dbl&gt; 7, 3, 2, 4, 1, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ~
+#&gt; $ network_rank         &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA~
+#&gt; $ channels_rank        &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA~
+#&gt; $ bbc_iplayer_requests &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA~
+#&gt; $ episode_count        &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,~
+#&gt; $ us_season            &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 1, 1~
+#&gt; $ us_airdate           &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, "June 22, 2018", "June 22, 2018", ~
+```
+
+]
+
+---
+
+# &lt;center&gt;echo&lt;/center&gt;
+
+.pull-left[
+
+````
+```{r echo=FALSE}
+glimpse(ratings)
+```
+````
+
+]
+
+--
+.pull-right[
+
+
+```
+#&gt; Rows: 94
+#&gt; Columns: 11
+#&gt; $ series               &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, ~
+#&gt; $ episode              &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6,~
+#&gt; $ uk_airdate           &lt;date&gt; 2010-08-17, 2010-08-24, 2010-08-31, 2010-09-07, 2010-09-14, 2010-09-21, 2011-08-16, 2011-~
+#&gt; $ viewers_7day         &lt;dbl&gt; 2.24, 3.00, 3.00, 2.60, 3.03, 2.75, 3.10, 3.53, 3.82, 3.60, 3.83, 4.25, 4.42, 5.06, 3.85, ~
+#&gt; $ viewers_28day        &lt;dbl&gt; 7, 3, 2, 4, 1, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ~
+#&gt; $ network_rank         &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA~
+#&gt; $ channels_rank        &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA~
+#&gt; $ bbc_iplayer_requests &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA~
+#&gt; $ episode_count        &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,~
+#&gt; $ us_season            &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 1, 1~
+#&gt; $ us_airdate           &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, "June 22, 2018", "June 22, 2018", ~
+```
+
+]
+
+???
+Echo (showing code) is default to TRUE. Setting to FALSE just returns the results, no code.
+
+---
+
+# &lt;center&gt;eval&lt;/center&gt;
+
+.pull-left[
+
+````
+```{r eval=FALSE}
+glimpse(ratings)
+```
+````
+
+]
+
+--
+.pull-right[
+
+
+```r
+glimpse(ratings)
+```
+
+]
+
+???
+Eval is short for evaluate and if set to FALSE stops the code from running. 
+Good if the code is an example of broken code which would stop the report from 
+running if set to TRUE (which is default).
+
+---
+
+# &lt;center&gt;include&lt;/center&gt;
+
+.pull-left[
+
+````
+```{r include=FALSE}
+glimpse(ratings)
+```
+````
+
+]
+
+--
+.pull-right[
+
+
+
+]
+
+???
+
+Often seen at the top of code where you see libraries calls and setup.
+
+[From RStudio lesson](https://rmarkdown.rstudio.com/lesson-3.html):
+
+FALSE prevents code and results from appearing in the finished file. 
+R Markdown still runs the code in the chunk, and the results can be used by other chunks.
+
+---
+
+# &lt;center&gt;results&lt;/center&gt;
+
+Note here the code has more than one control and they are separated by a comma.
+
+[From RMarkdown tips](https://garthtarr.github.io/meatR/tips.html):
+
+results = 'hide' hide the results of the chunk output (i.e. don’t show them)
+
+results = 'hold' hold the results of the chunk output until all commands in the chunk have been run
+
+results = ['asis'](https://garrettgman.github.io/rmarkdown/authoring_rcodechunks.html) is required to ensure that
+the raw table output isn’t processed further by knitr
+
+.pull-left[
+
+````
+```{r echo=TRUE, results='hide'}
+glimpse(ratings)
+```
+````
+
+]
+
+--
+.pull-right[
+
+
+```r
+glimpse(ratings)
+```
+
+]
+
+???
+
+results = "asis" is used in a later part of the course about [dynamic tabs](https://lextuga007.github.io/rmd-workshop/slides/06-tabs.html#10).
+
+---
+
+# &lt;center&gt;message / warning&lt;/center&gt;
+
+![](https://www.tidyverse.org/images/tidyverse_1.2.0/tidyverse_1-2-0_pkg_load.gif)
+
+???
+
+This is an example of a detailed message from {tidyverse} but what if you wanted 
+to not print that message when a chunk was run?
+
+---
+
+# &lt;center&gt;message / warning&lt;/center&gt;
+
+.pull-left[
+
+````
+```{r message=FALSE, warning=FALSE}
+library(tidyverse)
+```
+````
+
+]
+
+--
+
+.pull-right[
+
+
+```r
+library(tidyverse)
+```
+
+]
+
+---
+
+# &lt;center&gt;Chunk option summary&lt;/center&gt;
+
++ Place between curly braces&lt;br&gt;`{r option=value}`
+
++ Multiple options separated by commas&lt;br&gt;`{r option1=value, option2=value}`
+
++ Careful! The `r` part is the **R code engine** (other engines possible)
+
+???
+
+Such as sql which will require a database connection. Training and exercises available
+through the NHS-R Community, [link here](https://philosopher-analyst.netlify.app/intro-r/nhsr-intro/11-sql-connection/)
+
+---
+class: inverse, center, middle
+
+# &lt;center&gt;Naming Chunk labels&lt;/center&gt;
+
+&lt;span class="fa-stack fa-4x"&gt;
+  &lt;i class="fa fa-circle fa-stack-2x" style="color: #fff;"&gt;&lt;/i&gt;
+  &lt;strong class="fa-stack-1x" style="color:#17a2b8;"&gt;4 &lt;/strong&gt;
+&lt;/span&gt; 
+
+---
+
+# &lt;center&gt;Beware Repeated Chunk labels&lt;/center&gt;
+
+.pull-left[
+
+````
+```{r peek}
+glimpse(ratings)
+```
+````
+
+````
+```{r peek}
+head(ratings)
+```
+````
+
+
+]
+
+--
+.pull-right[
+
+    ```
+    Error in parse_block(g[-1], g[1], params.src) : 
+      duplicate label 'peek'
+    Calls: &lt;Anonymous&gt; ... process_file -&gt; split_file -&gt; lapply -&gt; FUN -&gt; parse_block
+    Execution halted
+    ```
+
+]
+
+---
+
+class: middle, center
+
+# A good chunk label
+
+.pull-left[
+
+### Good
+
+`my-plot`
+
+`myPlot`
+
+`MyPlot1`
+
+`my-plot-1`
+
+]
+
+.pull-right[
+
+### Bad
+
+These work but are conventionally avoided:
+
+`my_plot`
+
+`my plot`
+
+`myplot`
+
+`MYPLOT`
+
+`MY-PLOT`
+
+]
+
+---
+
+class: inverse, center, middle
+
+# &lt;center&gt;Setup chunk&lt;/center&gt;
+
+&lt;span class="fa-stack fa-4x"&gt;
+  &lt;i class="fa fa-circle fa-stack-2x" style="color: #fff;"&gt;&lt;/i&gt;
+  &lt;strong class="fa-stack-1x" style="color:#17a2b8;"&gt;5 &lt;/strong&gt;
+&lt;/span&gt; 
+
+---
+
+# &lt;center&gt;Setup chunk - or global settings&lt;/center&gt;
+
+.pull-left[
+
+````
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,   
+  comment = "#&gt;", 
+  out.width = "100%" 
+)
+```
+````
+
+]
+
+.pull-right[
+
++ A special chunk label: `setup`
+
++ Typically #1
+
++ All following chunks will use these options (i.e., sets global chunk options)
+
++ **Tip**: set `include=FALSE`
+
++ You can (and should) use individual chunk options too
+
+]
+
+???
+
+`include = FALSE` prevents code and results from appearing in the finished file. R Markdown still runs the code in the chunk, and the results can be used by other chunks.
+---
+class: live-code
+
+# Adding a setup chunk
+
+We do this together:
+
+1. Add `fig.path = "figs/"` as a knitr code chunk option for a single plot (watch what happens if we don't include the backslash!)
+
+1. Knit and behold
+
+
+???
+Copy the fig.path = "figs/" and paste into the chunk settings for the first chart.
+When this is run there is noticeably change to the report but a folder appears, called
+figs and in there is `unnamed-chunk-2-1.png`.
+
+If fig.path = "figs" is used instead the chart is not saved into a folder but in the main
+area and the name is a concatenation of figs and the default `figsunnamed-chunk-2-1.png`
+
+---
+class: your-turn
+
+# Your turn
+
+Customize this report.
+
+1. Label the code chunks with plots.
+
+1. Add your setup chunk along with the `fig.path = `
+
+1. Navigate using the RStudio outline pane; rejoice!
+
+
+<div class="countdown" id="timer_623b5e64" style="right:0;bottom:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">03</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+---
+class: your-turn
+
+# Answer
+
+````
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, 
+                      warning = FALSE,
+                      message = FALSE,
+                      fig.path = "figs/")
+```
+````
+
+---
+class: inverse, center, middle
+
+# &lt;center&gt;Reusing chunks&lt;/center&gt;
+
+&lt;span class="fa-stack fa-4x"&gt;
+&lt;i class="fa fa-circle fa-stack-2x" style="color: #fff;"&gt;&lt;/i&gt;
+&lt;strong class="fa-stack-1x" style="color:#17a2b8;"&gt;6 &lt;/strong&gt;
+&lt;/span&gt; 
+
+---
+
+class: live-code
+
+# Reusing chunk code
+
+Together we'll open:
+
+1. File `01-bakeoff-report.Rmd` name chunk 3 (under `# Ratings`) `viewers-by-days`
+
+1. Create a new chunk, shortcut &lt;kbd&gt;Ctrl + Alt + i&lt;/kbd&gt; or the green c button in RStudio
+
+1. Type `{r, ref.label="viewers-by-days", echo=TRUE, eval=FALSE}` in the new chunk header 
+
+1. 🧶 **Knit** button - What do you see? How is this different to the original chunk?
+
+---
+
+class: your-turn
+
+# &lt;center&gt;Your turn&lt;/center&gt;
+
+Following the slide previously and 🧶 **Knit** button after each step:
+
+1. In the chunk `viewers-by-days` under `# Ratings` add `fig.cap = "Nice chart"` to the chunk options 
+
+1. Create a new chunk, shortcut &lt;kbd&gt;Ctrl + Alt + i&lt;/kbd&gt;
+
+1. Type `{r, ref.label="viewers-by-days"}` as the new chunk header 
+
+1. Add to the new chunk options `{opts.label = TRUE}` 
+
+1. Finally, add the following `{fig.cap = "Duplicate chart!"}`
+
+
+<div class="countdown" id="timer_623b5d95" style="right:0;bottom:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+???
+
+`opts.label` cannot be set to FALSE but is default and takes all the global chunk set ups. In this case it will show the code 
+`opts.label = TRUE` inherits the chunk options from the named chunk.
+
+---
+
+class: middle, center
+
+# ⏱
+
+# Time for lunch!
+
+<div class="countdown" id="timer_623b5e35" style="right:0;bottom:0;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">60</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+---
+class: inverse
+
+# &lt;center&gt;Next section...&lt;/center&gt;
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "dracula",
+"highlightLanguage": ["r", "yaml", "markdown"],
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

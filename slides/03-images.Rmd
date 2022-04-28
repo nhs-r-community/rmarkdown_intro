@@ -1,0 +1,502 @@
+---
+title: "Images"
+session: "03"
+subtitle: "Adapted from slides by Alison Hill (RStudio)"
+author: Zoë Turner
+date: "`r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    css: ["default", "assets/css/my-theme.css", "assets/css/my-fonts.css"]
+    seal: false 
+    lib_dir: libs
+    nature:
+      highlightStyle: dracula
+      highlightLanguage: ["r", "yaml", "markdown"]
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+    includes:
+      in_header: assets/header.html  
+params:
+  site_link: "https://philosopher-analyst.netlify.app/rmd-workshop/"
+  cloud_link: "https://rstudio.cloud/"
+  github_link: "https://github.com/Lextuga007/rm_01_basics"
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+episode_counter <- 0
+knitr::opts_chunk$set(
+  collapse = TRUE,   
+  comment = "#>"
+)
+```
+
+```{r packages, include=FALSE}
+library(countdown)
+library(ymlthis)
+library(tidyverse)
+library(bakeoff)
+library(xaringanExtra)
+
+xaringanExtra::use_clipboard()
+xaringanExtra::use_share_again() # need to get the slide button on html view
+```
+
+class: title-slide, center, middle
+
+<span class="fa-stack fa-4x">
+  <i class="fa fa-circle fa-stack-2x" style="color: #ffffffcc;"></i>
+  <strong class="fa-stack-1x" style="color:#e7553c;">`r rmarkdown::metadata$session`</strong>
+</span> 
+
+# `r rmarkdown::metadata$title`
+
+---
+class: inverse, center, middle
+
+# <center>Images</center>
+
+<span class="fa-stack fa-4x">
+  <i class="fa fa-circle fa-stack-2x" style="color: #fff;"></i>
+  <strong class="fa-stack-1x" style="color:#17a2b8;">`r (episode_counter <- episode_counter + 1)` </strong>
+</span> 
+
+---
+
+# <center>Images - markdown</center>
+
+.pull-left[
+```markdown
+Competitive baking, such as making Victoria 
+sponge (_pictured_), is part of the classic 
+English village fête,
+which inspired the series.
+![](http://bit.ly/blue-ribbon-sponge)
+```
+]
+
+--
+
+.pull-right[
+Competitive baking, such as making Victoria 
+sponge (_pictured_), is part of the classic 
+English village fête,
+which inspired the series.
+![](http://bit.ly/blue-ribbon-sponge)
+]
+
+???
+
+A simple markdown code line for linking to an image online. html can be used
+too which can be useful if you need to resize the pictures.
+
+---
+
+# <center>Images - html</center>
+
+.pull-left[
+```markdown
+Competitive baking, such as making Victoria 
+sponge (_pictured_), is part of the classic 
+English village fête,
+which inspired the series.
+<div id="bg">
+  <img src="http://bit.ly/blue-ribbon-sponge">
+</div> 
+```
+]
+
+--
+
+.pull-right[
+Competitive baking, such as making Victoria 
+sponge (_pictured_), is part of the classic 
+English village fête,
+which inspired the series.
+<div id="bg">
+  <img src="http://bit.ly/blue-ribbon-sponge">
+</div> 
+]
+
+???
+html can be used too 
+
+---
+# <center>Images - using knitr</center>
+
+.pull-left[
+
+````
+```{r}`r ''`
+knitr::include_graphics("images/joy-of-fp/bakers_1.png")
+```
+````
+
+]
+
+--
+
+.pull-right[
+```{r echo=FALSE}
+knitr::include_graphics("images/joy-of-fp/bakers_1.png")
+```
+
+]
+
+
+---
+class: inverse, center, middle
+
+# <center>Images - navigating folders</center>
+
+<span class="fa-stack fa-4x">
+<i class="fa fa-circle fa-stack-2x" style="color: #fff;"></i>
+<strong class="fa-stack-1x" style="color:#17a2b8;">`r (episode_counter <- episode_counter + 1)` </strong>
+</span> 
+  
+---
+
+# <center>Images - navigating folders</center>
+
+--
+
+## Same folder
+
+```markdown
+![](bakers_1.png)
+```
+
+???
+Linking to an image in the same area as the .rmd file is straightforward, as is having a subfolder. 
+--
+
+## Sub folder
+
+```markdown
+![](img/bakers_2.png)
+```
+
+--
+
+### Folder from subfolder from the main root
+
+```markdown
+![](../images/bakers_3.png)
+```
+
+
+???
+
+But if the folder it up a level and down another then the pathway changes.
+
+RMarkdown doesn't access the files in the project, only the files in its location.
+
+Refresh on .RProj? Always use Projects.
+
+The dot dot pathway finds the file but doesn't render in [xaringan slides](https://github.com/yihui/xaringan/issues/145).
+
+---
+class: live-code
+
+# Markdown pathways to images
+
+Open file `03-bakeoff-images.Rmd` from the folder `03-images/`
+
+Together we will use markdown to link to an image:
+
+1. In the same folder
+
+1. In a subfolder
+
+1. In a subfolder from the main root
+
+_psst... we will be testing out the code from the previous slide!..._
+
+???
+
+Same folder
+![](bakers_1.png)
+Sub folder
+![](img/bakers_2.png)
+Folder from subfolder from the main root
+![](../images/bakers_3.png)
+
+Note that autofills. To force a prompt to autofill use `tab`
+
+Also if Global Options/RMarkdown/Show output inline for all R Markdown... is ticked
+the picture will automatically appear in the script. To remove untick but also 
+requires a restart `Ctrl + Shift + F10`
+---
+class: inverse, center, middle
+
+# <center>Alt Text</center>
+
+<span class="fa-stack fa-4x">
+<i class="fa fa-circle fa-stack-2x" style="color: #fff;"></i>
+<strong class="fa-stack-1x" style="color:#17a2b8;">`r (episode_counter <- episode_counter + 1)` </strong>
+</span> 
+  
+---
+
+# <center>Alt Text</center>
+
+.pull-left[
+When images break, they still make sense
+]
+
+--
+
+.pull-right[
+![Alt text: picture of a sponge cake from a village competition](http://bit.ly/blue-ribbon)
+]
+
+
+???
+Alternative text is useful for people who use screen readers but also helpful 
+for when the image link breaks, you now get a description of what you should be 
+seeing.
+
+---
+
+# <center>Alt Text</center>
+
+## Markdown 
+
+Between the [] brackets
+
+```markdown
+![Alt text: picture of a sponge cake from a village competition](http://bit.ly/blue-ribbon-sponge)
+```
+
+--
+
+## HTML
+
+Within the <> and space between sections
+
+```markdown
+<div id="bg">
+  <img src="http://bit.ly/blue-ribbon-sponge" alt="Alt text: picture of a sponge cake from a village competition">
+</div> 
+```
+
+---
+
+# <center>Alt Text continued</center>
+
+## knitr
+
+Use `fig.alt=`
+
+````
+```{r fig.alt="Alt text: picture of a sponge cake from a village competition"}`r ''`
+knitr::include_graphics("images/joy-of-fp/bakers_1.png")
+```
+````
+
+???
+> By default, if you do not provide the fig.alt chunk option, the text in the figure caption provided by the fig.cap chunk option will be used as the alt text. You do not have to use fig.cap to use fig.alt- you may use each chunk option in isolation, but they will also work together.
+
+From a [blog](https://www.rstudio.com/blog/knitr-fig-alt/) on the new feature of {knitr}
+---
+class: inverse, center, middle
+
+# <center>Figure options</center>
+
+<span class="fa-stack fa-4x">
+<i class="fa fa-circle fa-stack-2x" style="color: #fff;"></i>
+<strong class="fa-stack-1x" style="color:#17a2b8;">`r (episode_counter <- episode_counter + 1)` </strong>
+</span> 
+  
+---
+
+# <center>Captions</center>
+
+.pull-left[
+````
+```{r fig.cap="Picture of a sponge cake from a village competition"}`r ''`
+knitr::include_graphics("bakers_1.png")
+```
+````
+
+]
+
+--
+
+.pull-right[
+
+```{r echo=FALSE, fig.cap="Picture of a sponge cake from a village competition"}
+
+knitr::include_graphics("images/joy-of-fp/bakers_1.png")
+
+```
+
+]
+
+---
+
+# <center>Resize images</center>
+
+.pull-left[
+````
+```{r, out.width="50%"}`r ''`
+knitr::include_graphics("bakers_1.png")
+```
+````
+]
+
+--
+
+.pull-right[
+
+```{r echo=FALSE, out.width="50%"}
+
+knitr::include_graphics("images/joy-of-fp/bakers_1.png")
+
+```
+
+]
+
+???
+
+More information on resizing images (and charts too) from this [blog](http://zevross.com/blog/2017/06/19/tips-and-tricks-for-working-with-images-and-figures-in-r-markdown-documents/#arguments-out.width-and-out.height-apply-to-both-existing-images-and-r-generated-figures)
+
+---
+
+# <center>Centre images</center>
+
+````
+```{r, fig.align='centre'}`r ''`
+knitr::include_graphics("bakers_1.png")
+```
+````
+
+```{r echo=FALSE, fig.align='center', out.width="50%", fig.}
+
+knitr::include_graphics("images/joy-of-fp/bakers_1.png")
+
+```
+
+
+???
+More resizing notes in this [blog](https://sebastiansauer.github.io/figure_sizing_knitr/) 
+
+---
+
+class: inverse, center, middle
+
+# <center>Hyperlinks</center>
+
+<span class="fa-stack fa-4x">
+<i class="fa fa-circle fa-stack-2x" style="color: #fff;"></i>
+<strong class="fa-stack-1x" style="color:#17a2b8;">`r (episode_counter <- episode_counter + 1)` </strong>
+</span> 
+  
+---
+
+# <center>Hyperlinks - markdown</center>
+
+.pull-left[
+```markdown
+Competitive baking, such as making Victoria 
+sponge (_pictured_), is part of the classic 
+English village fête,
+which inspired the series.
+
+[Photo](https://en.wikipedia.org/wiki/Philosophy)
+
+![Alt text: picture of a sponge cake from a village competition](http://bit.ly/blue-ribbon-sponge)
+```
+]
+
+--
+
+.pull-right[
+Competitive baking, such as making Victoria 
+sponge (_pictured_), is part of the classic 
+English village fête,
+which inspired the series.
+
+[Photo](https://en.wikipedia.org/wiki/Philosophy)
+
+![Alt text: picture of a sponge cake from a village competition](http://bit.ly/blue-ribbon-sponge)
+]
+
+---
+
+# <center>Links - html</center>
+
+.pull-left[
+```markdown
+Competitive baking, such as making Victoria 
+sponge (_pictured_), is part of the classic 
+English village fête,
+which inspired the series.
+  <a href="https://en.wikipedia.org/wiki/Philosophy">
+  <img src="http://bit.ly/blue-ribbon-sponge" alt="Picture of a sponge cake from a village competition" 
+  </a>
+```
+]
+
+--
+
+.pull-right[
+Competitive baking, such as making Victoria 
+sponge (_pictured_), is part of the classic 
+English village fête,
+which inspired the series.
+  <a href="https://en.wikipedia.org/wiki/Philosophy">
+  <img src="http://bit.ly/blue-ribbon-sponge" alt="Picture of a sponge cake from a village competition" 
+  </a>
+]
+
+???
+A good site for more information on html is [W3schools](https://www.w3schools.com/html/html_images.asp)
+
+---
+
+name: 03-formative
+class: middle
+
+# Quiz
+
+.pull-left[
+
+How do you add headers in Markdown?
+
+`! Header`
+
+`- Header`
+
+`# Header`
+
+`1. Header`
+
+]
+
+--
+
+.pull-right[
+
+What about lists? Bulleted? Numbered?
+
+`! Item 1`
+
+`- Item 1`
+
+`# Item 1`
+
+`1. Item 1`
+
+]
+
+???
+
+Answer: Headers is `#` hash
+Lists are `-` for bullets and `1.` for numbered
+
+---
+class: inverse
+
+# <center>Next section...</center>

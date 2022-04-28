@@ -1,0 +1,175 @@
+---
+title: "Command line"
+session: "09"
+subtitle: "Adapted from slides by Alison Hill (RStudio)"
+author: Zoë Turner
+date: "`r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    css: ["default", "assets/css/my-theme.css", "assets/css/my-fonts.css"]
+    seal: false 
+    lib_dir: libs
+    nature:
+      highlightStyle: dracula
+      highlightLanguage: ["r", "yaml", "markdown"]
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+    includes:
+      in_header: assets/header.html  
+params:
+  site_link: "https://philosopher-analyst.netlify.app/rmd-workshop/"
+  cloud_link: "https://rstudio.cloud/"
+  github_link: "https://github.com/Lextuga007/rm_01_basics"
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+episode_counter <- 0
+knitr::opts_chunk$set(
+  collapse = TRUE,   
+  comment = "#>"
+)
+```
+
+```{r packages, include=FALSE}
+library(countdown)
+library(ymlthis)
+library(tidyverse)
+library(bakeoff)
+library(xaringanExtra)
+
+xaringanExtra::use_clipboard()
+xaringanExtra::use_share_again() # need to get the slide button on html view
+```
+
+class: title-slide, center, middle
+
+<span class="fa-stack fa-4x">
+  <i class="fa fa-circle fa-stack-2x" style="color: #ffffffcc;"></i>
+  <strong class="fa-stack-1x" style="color:#e7553c;">`r rmarkdown::metadata$session`</strong>
+</span> 
+
+# `r rmarkdown::metadata$title`
+
+---
+class: inverse, center, middle
+
+# <center>Command line</center>
+
+<span class="fa-stack fa-4x">
+  <i class="fa fa-circle fa-stack-2x" style="color: #fff;"></i>
+  <strong class="fa-stack-1x" style="color:#17a2b8;">`r (episode_counter <- episode_counter + 1)` </strong>
+</span> 
+
+---
+class: middle, center
+
+# Rendering
+
+.pull-left[
+
+So far we've used the RStudio button to `r emo::ji("yarn")`  
+
+What about on the command line?
+]
+
+
+
+--
+
+.pull-right[
+```{r eval=FALSE}
+rmarkdown::render("01-bakeoff-report.Rmd")
+```
+
+]
+
+---
+class: your-turn
+
+# Your turn
+
+Instead of using the "Knit" button, try running this code in your R console:
+
+```{r eval = FALSE}
+library(rmarkdown) # needs to be loaded first
+render("01-bakeoff-report.Rmd")
+
+# or
+
+rmarkdown::render("01-bakeoff-report.Rmd")
+```
+
+Now try changing the parameters:
+
+```{r eval = FALSE}
+render("01-bakeoff-report.Rmd",
+       params = list(series = "9"))
+```
+
+__If this was easy__, play with the other parameters too. Or see if you can change the output format, and add output option `toc = TRUE`.
+
+_psst...answers on the next slide..._
+
+
+```{r echo = FALSE}
+countdown(minutes = 5)
+```
+
+???
+The rendered document doesn't appear in a pop up and you will have to click on the newly created `01-bakeoff-report.html` which corresponds to the `.rmd` file. 
+
+A hint for finding the parameters to a function is to select F1 when the cursor is in the word `render`. 
+
+The help files will appear in the bottom right panel of RStudio.
+
+---
+class: your-turn
+
+# Example answer
+
+```{r eval=FALSE}
+render("01-bakeoff-report.Rmd",
+       params = list(series = "9"), 
+       output_format = "word_document")
+```
+
+---
+class: middle, center
+
+# Take-aways
+
+--
+
+`r emo::ji("heavy_check_mark")` **Documents run sequentially** the order of your code chunks matters
+
+--
+
+`r emo::ji("heavy_check_mark")` **Click or code** the flexibility of RMarkdown is that you can use RStudio or code in the console
+
+--
+
+`r emo::ji("exclamation")` **RMarkdowns are self-contained** any data use needs to be coded in the script and not "pre-loaded" in RStudio
+
+--
+
+`r emo::ji("exclamation")` **Manual parameters overwrite the output** each output needs to be saved individually - this can be laborious
+
+---
+
+class: middle, center
+
+# `r emo::ji("stopwatch")`
+
+# Time for a break!
+
+```{r echo = FALSE}
+countdown(minutes = 10)
+```
+
+---
+
+class: inverse
+
+# <center>Next section...</center>

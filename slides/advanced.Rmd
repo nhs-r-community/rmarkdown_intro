@@ -1,0 +1,646 @@
+---
+title: "R Markdown Advanced"
+session: "02"
+subtitle: "Adapted from slides by Alison Hill"
+author: Zoë Turner
+date: "`r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    css: ["default", "assets/css/my-theme.css", "assets/css/my-fonts.css"]
+    seal: false 
+    lib_dir: libs
+    nature:
+      highlightStyle: dracula
+      highlightLanguage: ["r", "yaml", "markdown"]
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+    includes:
+      in_header: assets/header.html  
+params:
+  site_link: "https://philosopher-analyst.netlify.app/rmd-workshop/"
+  cloud_link: "https://rstudio.cloud/"
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+episode_counter <- 0
+knitr::opts_chunk$set(
+  collapse = TRUE,   
+  comment = "#>"
+)
+options(knitr.table.format = "markdown")
+```
+
+```{r packages, include=FALSE}
+library(countdown)
+library(ymlthis)
+library(tidyverse)
+library(janitor)
+library(bakeoff)
+library(xaringanExtra)
+
+xaringanExtra::use_clipboard()
+xaringanExtra::use_share_again() # need to get the slide button on html view
+
+```
+
+
+
+class: title-slide, center, middle
+
+<span class="fa-stack fa-4x">
+  <i class="fa fa-circle fa-stack-2x" style="color: #ffffffcc;"></i>
+  <strong class="fa-stack-1x" style="color:#e7553c;">`r rmarkdown::metadata$session`</strong>
+</span> 
+
+
+# `r rmarkdown::metadata$title`
+
+## `r rmarkdown::metadata$subtitle`
+
+### `r rmarkdown::metadata$author`
+
+#### [`r params$site_link`](`r params$site_link`)
+
+<!--
+head notes
+output formats to html- 
+-demo cross references for headers, figures, and tables made with kable
+-cover here render from command line and go deeper into looping over parameters as well as output formats
+-->
+
+layout: true
+
+<div class="my-footer"><span>`r params$site_link`</span></div>
+
+
+---
+
+```{r child="how-rmd-works.Rmd"}
+
+```
+
+---
+class: top
+
+.left-column[
+<span class="fa-stack fa-4x">
+  <i class="fa fa-circle fa-stack-2x" style="color: #f2e255;"></i>
+  <strong class="fa-stack-1x" style="color: #fff;">?</strong>
+</span> 
+
+]
+
+
+.right-column[
+
+# How *does* R Markdown work?
+
+1. `r emo::ji("shrug")` (`r emo::ji("heavy_check_mark")`)
+
+1. ["I press knit, a document appears, and I believe that anything happening in between could be actual magic."](https://twitter.com/allison_horst/status/1070323369600442368?s=20) (`r emo::ji("wizard")`)
+
+1. `knitr` executes the code and converts `.Rmd` to `.md`; **Pandoc** renders the `.md` file to the output format you want. (`r emo::ji("heavy_check_mark")`)
+
+]
+
+---
+class: middle, center
+
+```{r echo = FALSE, out.width="25%", fig.align="center"}
+knitr::include_graphics("https://raw.githubusercontent.com/rstudio/hex-stickers/master/PNG/rmarkdown.png")
+```
+
+
+> "In a nutshell, R Markdown stands on the shoulders of `knitr` and **Pandoc**.
+
+--
+
+> The former executes the computer code embedded in Markdown, and converts R Markdown to Markdown.
+
+--
+
+> The latter renders Markdown to the output format you want (such as PDF, HTML, Word, Slides, website and so on)."
+
+--
+
+> &mdash; [R Markdown: The Definitive Guide](https://bookdown.org/yihui/rmarkdown/)
+
+---
+class: middle, center, inverse
+
+<span class="fa-stack fa-4x">
+  <i class="fa fa-circle fa-stack-2x" style="color: #fff;"></i>
+  <strong class="fa-stack-1x" style="color:#17a2b8;">`r (episode_counter <- episode_counter + 1)` </strong>
+</span> 
+
+--
+
+
+# Output formats
+
+---
+class: middle, center
+
+```{r echo=FALSE,out.width="50%"}
+knitr::include_graphics("images/outputs.png")
+```
+
+???
+
+Built in formats (in the `rmarkdown` package)
+
+versus
+
+extensions (different packages that extend output formats available to you)
+
+---
+class: middle, center
+
+
+```{r echo=FALSE, out.width="40%", fig.link="https://rmarkdown.rstudio.com/docs/reference/index.html#section-output-formats"}
+knitr::include_graphics("images/rmdbase-formats.png")
+```
+
+https://rmarkdown.rstudio.com/docs/reference/index.html#section-output-formats
+
+---
+class: your-turn
+
+# Your turn
+
+## Use a different built-in format
+
+.pull-left[
+
+Use the drop-down menu for the `r emo::ji("yarn")` **Knit** button and try:
+
+1. Knit to Word
+
+1. Knit to PDF
+
+]
+
+.pull-right[
+```{r echo=FALSE, out.width="60%", fig.align="center"}
+knitr::include_graphics("images/knit-dropdown.png")
+```
+
+]
+
+```{r echo = FALSE}
+countdown(minutes = 2)
+```
+
+
+---
+
+# Temp check `r emo::ji("thermometer")`
+
+Do you have new output formats in your YAML?
+
+```{r echo=FALSE}
+yml_empty() %>% 
+  yml_output(html_document(toc = TRUE, toc_float = TRUE, theme = "flatly"), 
+             word_document(toc = TRUE), 
+             pdf_document(toc = TRUE)
+             )  %>% 
+  asis_yaml_output()
+```
+
+???
+
+This is a great way to "control" your knit button!
+
+Notice that when you knit, it respects those output options in your YAML.
+
+This way you "save" your output options
+
+
+---
+
+# What is hard about YAML?
+
+.pull-left[
+![](https://media.giphy.com/media/Nt2cPxzpKhbCE/giphy.gif)
+]
+
+.pull-right[
++ Indentations matter
+
++ Rarely informative error messages
+
++ Knowing which output options are relevant for different formats (i.e., Word, PDF, HTML, etc.)
+
++ Easy to forget the right `key`
+
++ Easy to forget the possible `values` for a given `key`
+]
+
+---
+class: your-turn
+
+# Your turn
+
+## Use an extension package
+
+.pull-left[
+
+1. Edit your YAML again! Change the `output:` key to only `bookdown::html_document2` 
+
+1. Save the document; click on the dropdown `r emo::ji("yarn")` **Knit** button- what do you notice?
+
+1. `r emo::ji("yarn")` **Knit** to html_document2.
+
+]
+
+.pull-right[
+```{r echo=FALSE}
+yml_empty() %>% 
+  yml_output(
+    bookdown::html_document2(
+      toc = TRUE, 
+      toc_float = TRUE, 
+      theme = "flatly")
+    )  %>% 
+  asis_yaml_output()
+```
+]
+
+
+
+```{r echo = FALSE}
+countdown(minutes = 2)
+```
+
+
+.footnote[(note: this requires you to install the [`bookdown` package](https://bookdown.org/yihui/bookdown/) on your own computer)]
+
+---
+class: live-code
+
+# Adding figure auto-numbering & captions
+
+Together we:
+
+1. Label that chunk
+
+1. Add a cross-reference like see Figure `\@ref(fig:pretty-plot)`
+
+1. Try with `finale-scatterplot` code chunk: see Figure `\@ref(fig:finale-scatterplot)` (watch what happens if try to cross-reference without a caption!)
+
+.footnote[Cross-referencing only works in these output packages: distill, bookdown, blogdown]
+
+---
+class: your-turn
+
+# Your turn
+
+## Use another extension package
+
+
+1. Edit your YAML again! Add the output format `distill::distill_article` 
+
+1. Save the document; click on the dropdown `r emo::ji("yarn")` **Knit** button- what do you notice?
+
+1. `r emo::ji("yarn")` **Knit** to distill_article.
+
+**If this was easy**, add a table of contents too.
+
+_psst...answers on the next slide..._
+
+```{r echo = FALSE}
+countdown(minutes = 2)
+```
+
+
+.footnote[(note: this requires you to install the [`distill` package](https://rstudio.github.io/distill/) on your own computer)]
+
+???
+
+At this point, I'm going to stick with the distill_article output format for the rest of this session.
+
+---
+class: your-turn
+
+# Your turn
+
+## Answer
+
+
+```{r echo = FALSE}
+yml_empty() %>% 
+  yml_output(distill::distill_article(toc = TRUE)) %>% 
+  asis_yaml_output()
+```
+
+
+---
+class: middle
+
+# Pop quiz
+
+.pull-left[
+How do you add a single output **format** to your YAML?
+
+```yaml
+---
+output: html_document: default
+---
+output: html_document
+---
+```
+
+]
+
+--
+
+.pull-right[
+How do you add an output **option** to a format in your YAML?
+
+```yaml
+---
+output: 
+  html_document: 
+    toc: true
+---
+output: 
+  html_document(toc=true)
+---
+```
+
+]
+
+---
+class: middle
+
+# Pop quiz
+
+.pull-left[
+How do you add another output **format** to your YAML?
+
+```yaml
+---
+output: 
+  html_document: default
+  word_document: default
+---
+output: 
+  html_document()
+  word_document()
+---
+```
+
+]
+
+--
+
+
+.pull-right[
+How do you now add output **options** to your YAML?
+
+```yaml
+---
+output: 
+  html_document: 
+    toc: true
+  word_document: default
+---
+output: 
+  html_document(toc=true)
+  word_document(default)
+---
+```
+
+]
+
+
+---
+class: middle, center, inverse
+
+<span class="fa-stack fa-4x">
+  <i class="fa fa-circle fa-stack-2x" style="color: #fff;"></i>
+  <strong class="fa-stack-1x" style="color:#17a2b8;">`r (episode_counter <- episode_counter + 1)` </strong>
+</span> 
+
+--
+
+# Command line
+
+
+---
+class: middle, center
+
+# Rendering
+
+.pull-left[
+
+So far: `r emo::ji("yarn")`
+
+]
+
+.pull-right[
+```{r eval=FALSE}
+render("02-bakeoff-finales.Rmd")
+```
+
+]
+---
+class: your-turn
+
+# Your turn
+
+Instead of using the "Knit" button, try running this code in your R console:
+
+```{r eval = FALSE}
+library(rmarkdown) # needs to be loaded first
+render("02-bakeoff-finales.Rmd")
+```
+
+
+Now try changing the parameters:
+
+```{r eval = FALSE}
+render("02-bakeoff-finales.Rmd",
+       params = list(series = "9"))
+```
+
+__If this was easy__, play with the other parameters too. Or see if you can change the output format, and add output options.
+
+_psst...answers on the next slide..._
+
+
+```{r echo = FALSE}
+countdown(minutes = 5)
+```
+
+---
+class: your-turn
+
+# Answer
+
+```{r eval=FALSE}
+render("02-bakeoff-finales.Rmd",
+       params = list(series = "9"), 
+       output_format = distill::distill_article(toc = TRUE))
+```
+
+
+---
+class: middle, center, inverse
+
+<span class="fa-stack fa-4x">
+  <i class="fa fa-circle fa-stack-2x" style="color: #fff;"></i>
+  <strong class="fa-stack-1x" style="color:#17a2b8;">`r (episode_counter <- episode_counter + 1)` </strong>
+</span> 
+
+--
+
+# Render loops
+
+
+---
+class: live-code
+
+# We loop together
+
+
+```{r eval=FALSE}
+# the setup
+series <- sort(unique(ratings$series))
+
+# the loop
+for (this_series in series) {
+  render("02-bakeoff-finales.Rmd",
+         params = list(series = this_series))
+}
+```
+
+_psst...the wrong way_
+
+---
+
+```{r echo=FALSE, out.width="80%", fig.align="center"}
+knitr::include_graphics("images/joy-of-fp/forloops.png")
+```
+
+
+---
+
+# We need two things
+
+For the `rmarkdown::render()` function to work they way we want:
+
+1. The list of series -> `params`
+
+1. The name of each report -> `output_file`
+
+We could do this with a loop, but let's start **purrr**ing...
+
+---
+class: center, middle, inverse
+
+> "Of course someone has to write **loops**. 
+
+> It doesn't have to be _you_.
+
+> &mdash; Jenny Bryan
+
+---
+
+```{r echo=FALSE, fig.align="center"}
+knitr::include_graphics("images/joy-of-fp/map_frosting.png")
+```
+
+---
+
+```{r echo=FALSE, fig.align="center"}
+knitr::include_graphics("images/joy-of-fp/map2_cupcakes.png")
+```
+
+
+---
+
+# Rendering multiple reports
+
+```{r loop-setup, eval=FALSE}
+# the setup
+
+paths <- paste0("series-", series)
+
+# series needs to be a list
+series <- sort(unique(ratings$series))
+params <- map(series, ~ list(series = .x))
+str(params)
+```
+
+```{r loop-walk, eval=FALSE}
+walk2(
+  paths, params,
+  ~ rmarkdown::render("02-bakeoff-finales.Rmd", output_file = .x, params = .y)
+)
+```
+
+
+---
+class: your-turn
+
+# Your turn
+
+Try to get this set-up working locally for you.
+
+```{r ref.label='loop-setup', eval=FALSE}
+```
+
+```{r ref.label='loop-walk', eval=FALSE}
+```
+
+```{r echo=FALSE}
+countdown(minutes = 5)
+```
+
+
+---
+class: live-code
+
+# Digging deeper
+
+So now the output file name changed, but we can go deeper.
+
+Let's say we'd also like the change the title in our YAML.
+
+Let's do this together.
+
+(make sure the below is in quotes)
+
+```{r echo = FALSE}
+yml_empty() %>% 
+  yml_title("The Great British Bake Off, Series `r params$series`") %>% 
+  asis_yaml_output()
+```
+
+---
+class: your-turn
+
+# Your turn
+
+Use your render script again and check to make sure that the titles now have the series number in them. 
+
+It is good practice to save your rendering script in the project, call it `_render.R`.
+
+```{r echo=FALSE}
+countdown(minutes = 5)
+```
+
+
+---
+class: middle, center
+
+# `r emo::ji("bento")`
+
+# Time for lunch!
+
+```{r echo = FALSE}
+countdown(minutes = 60, update_every = 15)
+```

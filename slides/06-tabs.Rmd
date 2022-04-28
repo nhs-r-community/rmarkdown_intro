@@ -1,0 +1,246 @@
+---
+title: "Tabs"
+session: "06"
+subtitle: "Adapted from slides by Alison Hill (RStudio)"
+author: Zoë Turner
+date: "`r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    css: ["default", "assets/css/my-theme.css", "assets/css/my-fonts.css"]
+    seal: false 
+    lib_dir: libs
+    nature:
+      highlightStyle: dracula
+      highlightLanguage: ["r", "yaml", "markdown"]
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+    includes:
+      in_header: assets/header.html  
+params:
+  site_link: "https://philosopher-analyst.netlify.app/rmd-workshop/"
+  cloud_link: "https://rstudio.cloud/"
+  github_link: "https://github.com/Lextuga007/rm_01_basics"
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+episode_counter <- 0
+knitr::opts_chunk$set(
+  collapse = TRUE,   
+  comment = "#>"
+)
+```
+
+```{r packages, include=FALSE}
+library(countdown)
+library(ymlthis)
+library(tidyverse)
+library(bakeoff)
+library(xaringanExtra)
+
+xaringanExtra::use_clipboard()
+xaringanExtra::use_share_again() # need to get the slide button on html view
+```
+
+class: title-slide, center, middle
+
+<span class="fa-stack fa-4x">
+  <i class="fa fa-circle fa-stack-2x" style="color: #ffffffcc;"></i>
+  <strong class="fa-stack-1x" style="color:#e7553c;">`r rmarkdown::metadata$session`</strong>
+</span> 
+
+# `r rmarkdown::metadata$title`
+
+---
+class: inverse, center, middle
+
+# <center>Tabs</center>
+
+<span class="fa-stack fa-4x">
+  <i class="fa fa-circle fa-stack-2x" style="color: #fff;"></i>
+  <strong class="fa-stack-1x" style="color:#17a2b8;">`r (episode_counter <- episode_counter + 1)` </strong>
+</span> 
+
+---
+
+# <center>Dealing with long reports</center>
+
+.pull-left[
+
+There is a hierarchy of hashes for tabs
+
+```markdown
+
+## Series Analysis {.tabset}
+
+### Overview
+
+### Ratings
+
+```
+
+Also
+
+```markdown
+
+# Series Analysis {.tabset}
+
+## Overview
+
+## Ratings
+```
+
+]
+
+--
+
+.pull-right[
+/
+![Screenshot of the tabsets with the headers as above](images/tabset.PNG)
+
+]
+
+???
+A Return space/carriage is required between the tabs OR two spaces after the line.
+
+Note to start a tabset there have to be 2 hashes and not the main header of one #
+
+
+---
+class: your-turn
+
+# Your turn
+
+Looking at `01-bakeoff-report.Rmd` together. 
+Look at the source, then `r emo::ji("yarn")` **Knit** after each step.
+
+1. Add a header `# Series Analysis {.tabset}`.
+
+1. Change `# Overview` to `## Overview`.
+
+1. Change `# Ratings` to `## Ratings`.
+
+1. Remove the space in the second header `##Ratings`. What happens?
+
+
+```{r echo = FALSE}
+countdown(minutes = 3)
+```
+
+---
+class: inverse, center, middle
+
+# <center>Styling Tabs</center>
+
+<span class="fa-stack fa-4x">
+  <i class="fa fa-circle fa-stack-2x" style="color: #fff;"></i>
+  <strong class="fa-stack-1x" style="color:#17a2b8;">`r (episode_counter <- episode_counter + 1)` </strong>
+</span> 
+
+---
+
+# <center>Styling Tabs</center>
+
+.pull-left[
+
+```markdown
+
+# Series Analysis {.tabset .tabset-fade .tabset-pills}
+
+## Overview
+
+## Ratings
+
+```
+]
+
+--
+
+.pull-right[
+
+![Screenshot of the tabsets with the headers as above, pillsets have rounded edges](images/tabset-pills.PNG)
+
+]
+
+
+
+---
+class: inverse, center, middle
+
+# <center>Dynamic tabs</center>
+
+<span class="fa-stack fa-4x">
+  <i class="fa fa-circle fa-stack-2x" style="color: #fff;"></i>
+  <strong class="fa-stack-1x" style="color:#17a2b8;">`r (episode_counter <- episode_counter + 1)` </strong>
+</span> 
+
+---
+class: live-code
+
+# Dynamic tabs
+
+Together: 
+
+1. We'll add a new header `## Days {.tabset .tabset-fade .tabset-pills}`
+
+1. <kbd>Ctrl + Alt + i</kbd> for a new R chunk.
+
+1. Add the `results='asis'` in the chunk options.
+
+1. Create a list of days 
+
+```markdown 
+days <- viewers %>% select(days) %>% unique() %>% pull()
+```
+
+5. Copy loop code:
+
+```markdown
+for(i in days){ 
+  cat("###", i, '<br>', '\n')
+  
+  data <- viewers %>% 
+    filter(days == i) 
+  
+  chart <- ggplot(data, aes(episode, 
+                    viewers, 
+                    colour = days, 
+                    group = days)) + 
+  geom_point() + 
+  geom_line() + 
+  labs(
+    x = "Episode", 
+    y = "Viewers (millions)"
+  ) +
+  expand_limits(y = 0) 
+  print(chart)
+  cat('\n', '<br>', '\n\n')
+}
+```
+
+???
+**The new code chunk must be below the Ratings section as that's where the `viewers` data is created.**
+
+As with so much in R most things can be automated. If you were to require many tabs to be created for teams/wards/hospitals then automating this using a loop can be useful. First example shared in the [NHS-R Community demos and how tos](https://github.com/nhs-r-community/demos-and-how-tos/blob/main/rmarkdown/loop_tabs/loop_tabs.Rmd)
+
+*`results='asis'`*
+
+On 'asis' Note the use of the` results='asis'` chunk option. This is required to ensure that the raw table output isn’t processed further by knitr. The kable function includes several options to control the maximum number of digits for numeric columns, alignment, etc (refer to the knitr package documentation for additional details) - results slide https://lextuga007.github.io/rmd-workshop/slides/04-code-chunks.html#21
+
+---
+
+class: middle, center
+
+# `r emo::ji("stopwatch")`
+
+# Time for a break!
+
+```{r echo = FALSE}
+countdown(minutes = 10)
+```
+
+---
+class: inverse
+
+# <center>Next section...</center>
