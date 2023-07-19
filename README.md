@@ -17,10 +17,30 @@ with its own [GitHub repository](https://github.com/ysc2019-workshop)
 for materials. I found this resource through [Alison’s
 blog](https://www.apreshill.com/talk/2019-ysc-workshop/).
 
-Some of the content from the [RMarkdown workshop](https://github.com/nhs-r-community/intro_rmd)
-run at the 2021 NHS-R Community Conference has been incorporated into these 
-slides and special thanks goes to [Hansel Palencia](https://github.com/HanselPalencia) for the
-open source content and [recording](https://www.youtube.com/watch?v=RaM6fgwMZIs).
+Slides links published through GitHub
+
+[00 Setting
+up](https://nhs-r-community.github.io/rmarkdown_intro/slides/00-setting-up.html#1)
+[01
+Text](https://nhs-r-community.github.io/rmarkdown_intro/slides/02-text.html#1)
+[03
+Images](https://nhs-r-community.github.io/rmarkdown_intro/slides/03-images#1)
+[04 Code
+chunks](https://nhs-r-community.github.io/rmarkdown_intro/slides/04-code-chunks.html#1)
+[05 Inline
+code](https://nhs-r-community.github.io/rmarkdown_intro/slides/05-inline-code.html#1)
+[06
+Tabs](https://nhs-r-community.github.io/rmarkdown_intro/slides/06-tabs#1)
+[07 Output
+formats](https://nhs-r-community.github.io/rmarkdown_intro/slides/07-output-formats#1)
+[08
+Parameters](https://nhs-r-community.github.io/rmarkdown_intro/slides/08-parameters#1)
+[09 Command
+line](https://nhs-r-community.github.io/rmarkdown_intro/slides/09-command-line#1)
+[10 Loop
+parameters](https://nhs-r-community.github.io/rmarkdown_intro/slides/10-loop-parameters#1)
+[11
+Extras](https://nhs-r-community.github.io/rmarkdown_intro/slides/11-extras#1)
 
 ------------------------------------------------------------------------
 
